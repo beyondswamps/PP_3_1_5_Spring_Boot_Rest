@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        #usersTable td {
+            outline: 2px solid black;
+            margin: 10px;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/users/add}" method="post" th:object="${user}">
+    <table>
+        <tr>
+            <td>
+                <label for="name">User name</label>
+            </td>
+            <td>
+                <input id="name" type="text" th:field="*{name}" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="surname">User surname</label>
+            </td>
+            <td>
+                <input id="surname" type="text" th:field="*{surname}" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="age">User age</label>
+            </td>
+            <td>
+                <input id="age" th:field="*{age}" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Add user">
+            </td>
+        </tr>
+    </table>
+</form>
+<br>
+<table id="usersTable">
+    <thead>
+    <tr>
+        <th>User name</th>
+        <th>User surname</th>
+        <th>User age</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${users}">
+        <td>
+            <span th:text="${user.getName()}"></span>
+        </td>
+        <td>
+            <span th:text="${user.getSurname()}"></span>
+        </td>
+        <td>
+            <span th:text="${user.getAge()}"></span>
+        </td>
+        <td>
+            <span><a th:href="@{edit(id=${user.getId()})}">Edit</a></span>
+        </td>
+        <td>
+            <span><a th:href="@{delete(id=${user.getId()})}">Delete</a></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
