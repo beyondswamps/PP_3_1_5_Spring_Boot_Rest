@@ -7,7 +7,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/")
 public class UserController {
     final private UserService userService;
 
@@ -15,38 +15,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute User user, Model model) {
+    @GetMapping("/user")
+    public String showUserInfo(@ModelAttribute User user, Model model) {
         model.addAttribute("user", user);
-        userService.addUser(user);
-        return "redirect:/users/all";
+        return "user";
     }
 
-    @GetMapping("/all")
-    public String listUsers(Model model, User user) {
-        model.addAttribute("users", userService.getUsers());
-        model.addAttribute("user", user);
-        return "users";
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
     }
 
-    @GetMapping(value="/edit")
-    public String editUser(@RequestParam Long id, Model model) {
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
-        return "editUser";
-    }
-
-    @PostMapping(value = "/edit")
-    public String editUser(@ModelAttribute User user, Model model, @RequestParam Long id) {
-        model.addAttribute("user", user);
-        user.setId(id);
-        userService.updateUser(user);
-        return "redirect:/users/all";
-    }
-
-    @GetMapping(value="/delete")
-    public String deleteUser(@RequestParam Long id) {
-        userService.deleteUser(id);
-        return "redirect:/users/all";
-    }
 }

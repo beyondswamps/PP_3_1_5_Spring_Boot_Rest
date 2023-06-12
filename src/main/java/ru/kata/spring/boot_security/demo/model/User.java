@@ -31,24 +31,23 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "roles")
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     @Column(name="password")
     private String password;
 
-    public User(String name, String surname, Integer age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
+    @Transient
+    private String passwordConfirm;
 
-    public User(Long id, String name, String surname, Integer age) {
-        this.id = id;
+    public User(String username, String name, String surname, Integer age, Set<Role> roles, String password, String passwordConfirm) {
+        this.username = username;
         this.name = name;
         this.surname = surname;
         this.age = age;
+        this.roles = roles;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
     }
 
     public User() {
@@ -100,6 +99,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     @Override

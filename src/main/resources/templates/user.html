@@ -3,9 +3,15 @@
 <head>
     <title>Spring Security Example</title>
 </head>
+
 <body>
 <h1>User, welcome spring boot security page!</h1>
-
-
 </body>
+<table id="userInfo">
+  <tbody>
+    <tr>
+        <span th:text="${user.getName()}"></span>
+    </tr>
+  </tbody>
+</table>
 </html>
