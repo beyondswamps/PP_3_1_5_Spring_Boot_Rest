@@ -32,7 +32,8 @@ public class User implements UserDetails {
     private Integer age;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Role> roles;
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> authorities;
 
     @Column(name="password")
     private String password;
@@ -40,15 +41,8 @@ public class User implements UserDetails {
     @Transient
     private String passwordConfirm;
 
-    public User(String username, String name, String surname, Integer age, Set<Role> roles, String password, String passwordConfirm) {
-        this.username = username;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.roles = roles;
-        this.password = password;
-        this.passwordConfirm = passwordConfirm;
-    }
+    @Column(name="enabled")
+    private boolean enabled;
 
     public User() {
     }
@@ -85,12 +79,8 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setAuthorities(Set<Role> roles) {
+        this.authorities = roles;
     }
 
     public void setUsername(String username) {
@@ -134,7 +124,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -164,6 +154,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
+
 }
