@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -19,7 +20,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="username")
+    @Column(name="username", unique = true)
     private String username;
 
     @Column(name = "name")
@@ -31,20 +32,27 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Integer age;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> authorities;
 
     @Column(name="password")
     private String password;
 
-    @Transient
-    private String passwordConfirm;
-
     @Column(name="enabled")
     private boolean enabled;
 
     public User() {
+    }
+
+    public User(String username, String name, String surname, Integer age, Set<Role> authorities, String password, boolean enabled) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.authorities = authorities;
+        this.password = password;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -91,12 +99,8 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
+    public String listAuthorities() {
+        return authorities.stream().map(Role::getAuthority).collect(Collectors.joining());
     }
 
     @Override
@@ -116,9 +120,13 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
+                ", authorities=" + authorities +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
                 '}';
     }
 
@@ -129,7 +137,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return password;
     }
 
     @Override
@@ -139,17 +147,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return enabled;
     }
 
     @Override

@@ -12,52 +12,30 @@
     </style>
 </head>
 <body>
-<form th:action="@{/admin/add}" method="post" th:object="${user}">
-    <table>
-        <tr>
-            <td>
-                <label for="name">User name</label>
-            </td>
-            <td>
-                <input id="name" type="text" th:field="*{name}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="surname">User surname</label>
-            </td>
-            <td>
-                <input id="surname" type="text" th:field="*{surname}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="age">User age</label>
-            </td>
-            <td>
-                <input id="age" th:field="*{age}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Add user">
-            </td>
-        </tr>
-    </table>
-</form>
-<br>
+
 <table id="usersTable">
     <thead>
     <tr>
-        <th>User name</th>
-        <th>User surname</th>
-        <th>User age</th>
+        <th>User id</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+        <th>Encrypted user password</th>
+        <th>User authorities</th>
+        <th>Enabled</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user: ${users}">
+        <td>
+            <span th:text="${user.getId()}"></span>
+        </td>
+        <td>
+            <span th:text="${user.getUsername()}"></span>
+        </td>
         <td>
             <span th:text="${user.getName()}"></span>
         </td>
@@ -68,6 +46,15 @@
             <span th:text="${user.getAge()}"></span>
         </td>
         <td>
+            <span th:text="${user.getPassword()}"></span>
+        </td>
+        <td>
+            <span th:text="${user.listAuthorities()}"></span>
+        </td>
+        <td>
+            <span th:text="${user.isEnabled()}"></span>
+        </td>
+        <td>
             <span><a th:href="@{edit(id=${user.getId()})}">Edit</a></span>
         </td>
         <td>
@@ -76,5 +63,9 @@
     </tr>
     </tbody>
 </table>
+<a href="/logout">Logout</a>
+<a href="/admin/add">Add user</a>
+
+
 </body>
 </html>

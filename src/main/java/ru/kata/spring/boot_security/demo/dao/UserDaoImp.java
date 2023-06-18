@@ -2,17 +2,21 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
     @PersistenceContext
     final private EntityManager entityManager;
+
 
     public UserDaoImp(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -38,6 +42,18 @@ public class UserDaoImp implements UserDao {
     public User getUser(Long id) {
         return entityManager
                 .find(User.class, id);
+    }
+
+    @Override
+    public User getUserByUserName(String username) {
+        Optional<User> maybeUser = entityManager
+                .createQuery("from User where username=:username")
+                .setParameter("username", username)
+                .getResultList()
+                .stream()
+                .findFirst();
+
+        return maybeUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
