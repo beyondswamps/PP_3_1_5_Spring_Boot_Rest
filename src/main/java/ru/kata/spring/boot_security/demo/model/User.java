@@ -100,7 +100,7 @@ public class User implements UserDetails {
     }
 
     public String listAuthorities() {
-        return authorities.stream().map(Role::getAuthority).collect(Collectors.joining());
+        return authorities.stream().map((authority) -> authority.getAuthority()).collect(Collectors.joining());
     }
 
     @Override

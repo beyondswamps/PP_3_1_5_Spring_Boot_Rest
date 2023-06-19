@@ -5,8 +5,7 @@
 </head>
 
 <body>
-<h1>User, welcome spring boot security page!</h1>
-</body>
+<h1>Welcome spring boot security page,<span th:text="${user.getUsername()}"></span>!</h1>
 <table id="userInfo">
   <tbody>
     <tr>
@@ -14,4 +13,5 @@
     </tr>
   </tbody>
 </table>
+</body>
 </html>
