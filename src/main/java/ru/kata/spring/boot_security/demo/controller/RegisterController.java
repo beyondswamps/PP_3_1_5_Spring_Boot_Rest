@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +37,10 @@ public class RegisterController {
 
     @PostMapping
     public String sendRegisterForm(Model model,
-                                   @ModelAttribute("user") User user,
-                                   @RequestParam("selectedRolesIds") Long[] selectedRolesIds) {
-//        user.setAuthorities(userRoles);
-//        modelassignRoles = roleService.getRoles(selectedRoles);
-//        user.setAuthorities(assignRoles.stream().collect(Collectors.toSet()));
+                                   @ModelAttribute("user") User user) {
+        for (Role role : user.getAuthorities()) {
+
+        }
         userService.addUser(user);
         return "redirect:/";
 

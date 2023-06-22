@@ -79,11 +79,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        userService.addUser(admin);
 //        userService.addUser(user);
 
-        Role roleAdmin = new Role("ROLE_ADMIN");
-        Role roleUser = new Role("ROLE_USER");
+//        Role roleAdmin = new Role("ROLE_ADMIN");
+//        Role roleUser = new Role("ROLE_USER");
 
-        roleService.saveRole(roleAdmin);
-        roleService.saveRole(roleUser);
+//        roleService.saveRole(roleAdmin);
+//        roleService.saveRole(roleUser);
 
 
     }

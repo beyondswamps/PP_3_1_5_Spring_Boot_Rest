@@ -7,10 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+
 @Repository
 public class RoleDaoImpl implements RoleDao {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     @Transactional
     public List<Role> getAllRoles() {
@@ -20,12 +22,11 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public List<Role> getRoles(List<Long> ids) {
-
+    public Role findByName(String name) {
         return entityManager
-                .createQuery("from Role where Role.id in :ids", Role.class)
-                .setParameter("ids", ids)
-                .getResultList();
+                .createQuery("from Role role where role.name=:name", Role.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 
     @Override
@@ -34,6 +35,4 @@ public class RoleDaoImpl implements RoleDao {
         entityManager
                 .persist(role);
     }
-
-
 }
