@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<form th:action="@{/register}" method="post" th:object="${user}">
+  <div>
+    <label for="username">username</label>
+    <input id="username" type="text" th:field="*{username}" required>
+  </div>
+  <div>
+    <label for="name">User name</label>
+    <input id="name" type="text" th:field="*{name}" required>
+  </div>
+  <div>
+    <label for="surname">User surname</label>
+    <input id="surname" type="text" th:field="*{surname}" required>
+  </div>
+  <div>
+    <label for="age">User age</label>
+    <input id="age" th:field="*{age}" required>
+  </div>
+  <div>
+    <label for="password">User password</label>
+    <input id="password" th:field="*{password}" required>
+  </div>
+  <div>
+    <input type="checkbox" name="roles"
+           th:each="role : ${allRoles}"
+           th:text="${role.getName()}"
+           th:value="${role.getId()}"
+           th:field="${selectedRolesIds}"
+    />
+  </div>
+
+  <input type="submit" value="Ok">
+
+</body>
+</html>

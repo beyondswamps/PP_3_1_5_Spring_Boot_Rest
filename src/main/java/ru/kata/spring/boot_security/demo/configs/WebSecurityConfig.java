@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.Set;
@@ -24,12 +25,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
 
+    private final RoleService roleService;
+
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService, UserService userService, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService, UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/register").not().authenticated()
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -52,27 +57,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
 
-        User admin = new User(
-                "admin",
-                "Admin",
-                "Adminov",
-                33,
-                Set.of(new Role("ROLE_ADMIN")),
-                "admin",
-                true
-        );
-        User user = new User(
-                "user",
-                "User",
-                "Userov",
-                33,
-                Set.of(new Role("ROLE_USER")),
-                "user",
-                true
-        );
+//        User admin = new User(
+//                "admin",
+//                "Admin",
+//                "Adminov",
+//                33,
+//                Set.of(new Role("ROLE_ADMIN")),
+//                "admin",
+//                true
+//        );
+//        User user = new User(
+//                "user",
+//                "User",
+//                "Userov",
+//                33,
+//                Set.of(new Role("ROLE_USER")),
+//                "user",
+//                true
+//        );
+//
+//        userService.addUser(admin);
+//        userService.addUser(user);
 
-        userService.addUser(admin);
-        userService.addUser(user);
+        Role roleAdmin = new Role("ROLE_ADMIN");
+        Role roleUser = new Role("ROLE_USER");
+
+        roleService.saveRole(roleAdmin);
+        roleService.saveRole(roleUser);
+
 
     }
 
