@@ -37,10 +37,19 @@ public class RegisterController {
 
     @PostMapping
     public String sendRegisterForm(Model model,
-                                   @ModelAttribute("user") User user) {
-        for (Role role : user.getAuthorities()) {
-
+                                   @ModelAttribute("user") User user,
+                                   @RequestParam(value = "roles") long[] roles) {
+        if (roles != null) {
+            Set<Role> rolesSet = new HashSet<>();
+            for (int i = 0; i < roles.length; i++) {
+                Role role = new Role();
+                role.setId(roles[i]);
+                role.setName((roleService.findById(roles[i]).getName()));
+                rolesSet.add(role);
+            }
+            user.setAuthorities(rolesSet);
         }
+
         userService.addUser(user);
         return "redirect:/";
 
