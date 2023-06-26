@@ -47,7 +47,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public User getUserByUserName(String username) {
         Optional<User> maybeUser = entityManager
-                .createQuery("from User where username=:username", User.class)
+                .createQuery("from User user join fetch user.authorities where user.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList()
                 .stream()

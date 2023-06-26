@@ -38,8 +38,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        userDao.updateUser(user);
+    public void updateUser(User userForm) {
+        User userDB = userDao.getUser(userForm.getId());
+        userForm.setPassword(userDB.getPassword());
+        userForm.setUsername(userDB.getUsername());
+        userDao.updateUser(userForm);
     }
 
     @Override

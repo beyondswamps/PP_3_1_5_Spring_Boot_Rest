@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
+  <meta charset="UTF-8">
+  <title>Registration</title>
 </head>
 <body>
 <form th:action="@{/register}" method="post" th:object="${user}">
-  <div>
-    <label for="username">username</label>
-    <input id="username" type="text" th:field="*{username}" required>
-  </div>
-  <div>
-    <label for="name">User name</label>
-    <input id="name" type="text" th:field="*{name}" required>
-  </div>
-  <div>
-    <label for="surname">User surname</label>
-    <input id="surname" type="text" th:field="*{surname}" required>
-  </div>
-  <div>
-    <label for="age">User age</label>
-    <input id="age" th:field="*{age}" required>
-  </div>
-  <div>
-    <label for="password">User password</label>
-    <input id="password" th:field="*{password}" required>
-  </div>
-  <div>
-    <input type="checkbox" name="roles"
-           th:each="role : ${allRoles}"
-           th:text="${role.getName()}"
-           th:value="${role.getId()}"
-    />
-  </div>
+  <table>
+    <tr>
+      <td><label for="username">username</label></td>
+      <td><input id="username" type="text" th:field="*{username}" required></td>
+    </tr>
+    <tr>
+      <td><label for="name">User name</label></td>
+      <td><input id="name" type="text" th:field="*{name}" required></td>
+    </tr>
+    <tr>
+      <td><label for="surname">User surname</label></td>
+      <td><input id="surname" type="text" th:field="*{surname}" required></td>
+    </tr>
+    <tr>
+      <td><label for="age">User age</label></td>
+      <td><input id="age" th:field="*{age}" required></td>
+    </tr>
+    <tr>
+      <td><label for="password">User password</label></td>
+      <td><input id="password" th:field="*{password}" required></td>
+    </tr>
+    <tr>
+      <td><label for="roles">Authorities</label> </td>
+      <td><input id="roles" type="checkbox" name="roles"
+             th:each="role : ${allRoles}"
+             th:text="${role.getName()}"
+             th:value="${role.getId()}"
+      /></td>
+    </tr>
+    <tr>
+      <td></t><input type="submit" value="Ok"></td>
+    </tr>
 
-  <input type="submit" value="Ok">
-
+  </table>
 </body>
 </html>

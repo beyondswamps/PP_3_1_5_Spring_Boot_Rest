@@ -1,32 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit user</title>
+  <meta charset="UTF-8">
+  <title>Edit user</title>
 </head>
 <body>
+<h1>Editing user: <span th:text="${user.getUsername()}"></span></h1>
 <form th:action="@{/admin/edit(id=${user.getId()})}" method="post" th:object="${user}">
-  <div>
-    <label for="name">User name</label>
-    <input id="name" type="text" th:field="*{name}" required>
-  </div>
-  <div>
-    <label for="surname">User surname</label>
-    <input id="surname" type="text" th:field="*{surname}" required>
-  </div>
-  <div>
-    <label for="age">User age</label>
-    <input id="age" th:field="*{age}" required>
-  </div>
-  <div>
-    <label for="password">User password</label>
-    <input id="password" th:field="*{password}" required>
-  </div>
-<!--  <div>-->
-<!--    <label for="authorities">User authorities</label>-->
-<!--    <input id="authorities" th:field="*{authorities}" required>-->
-<!--  </div>-->
-  <input type="submit" value="Ok">
+  <table>
+    <tr>
+      <td><label for="name">User name</label></td>
+      <td><input id="name" type="text" th:field="*{name}" required></td>
+    <tr>
+      <td><label for="surname">User surname</label></td>
+      <td><input id="surname" type="text" th:field="*{surname}" required></td>
+    </tr>
+    <tr>
+      <td><label for="age">User age</label></td>
+      <td><input id="age" th:field="*{age}" required></td>
+    </tr>
+<!--    <tr>-->
+<!--      <td><label for="password">User password</label></td>-->
+<!--      <td><input id="password" required></td>-->
+<!--    </tr>-->
+    <tr>
+      <td><label for="enabled">Enabled</label></td>
+      <td><input type=checkbox id="enabled" th:field="*{enabled}"></td>
+    </tr>
+    <tr>
+      <td><label for="authorities">authorities</label></td>
+      <td>
+        <input type=checkbox id="authorities" name="selectedRoles"
+               th:each="authority : ${allRoles}"
+               th:text="${authority.getName()}"
+               th:checked="${user.getAuthorities().contains(authority)}"
+               th:value="${authority.getId()}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="submit" value="Ok">
+      </td>
+    </tr>
+  </table>
 </form>
 </body>
 </html>

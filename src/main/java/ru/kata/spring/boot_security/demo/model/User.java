@@ -2,11 +2,9 @@ package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,8 +37,12 @@ public class User implements UserDetails {
     @Column(name="password")
     private String password;
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Column(name="enabled")
-    private boolean enabled;
+    private boolean enabled = true;
 
     public User() {
     }
@@ -100,7 +102,7 @@ public class User implements UserDetails {
     }
 
     public String listAuthorities() {
-        return authorities.stream().map((authority) -> authority.getAuthority()).collect(Collectors.joining());
+        return authorities.stream().map((authority) -> authority.getAuthority()).collect(Collectors.joining("; "));
     }
 
     @Override
@@ -160,7 +162,6 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
