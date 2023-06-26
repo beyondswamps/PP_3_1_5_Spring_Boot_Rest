@@ -24,19 +24,25 @@ public class AdminController {
         this.roleService = roleService;
     }
 
+    @GetMapping("/add")
+    public String addUserForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        List<Role> allRoles = roleService.getAllRoles();
+        model.addAttribute("allRoles", allRoles);
+        return "addUser";
+    }
+
     @PostMapping("/add")
     @Transactional
-    public String addUser(@ModelAttribute User user, Model model) {
-        model.addAttribute("user", user);
+    public String addUser(Model model,
+                          @ModelAttribute User user,
+                          @RequestParam List<Long> selectedRoles) {
+        user.setAuthorities(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.addUser(user);
         return "redirect:/admin/all";
     }
 
-    @GetMapping("/add")
-    public String addUserForm(Model model, User user) {
-        model.addAttribute("user", user);
-        return "addUser";
-    }
 
     @GetMapping("/all")
     public String listUsers(Model model, User user) {
@@ -45,7 +51,7 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping(value="/edit")
+    @GetMapping("/edit")
     public String editUser(Model model,
                            @RequestParam Long id) {
         User user = userService.getUser(id);
@@ -58,15 +64,15 @@ public class AdminController {
     @PostMapping(value = "/edit")
     public String editUser(Model model,
                            @ModelAttribute User userForm,
-                           @RequestParam Long id,
-                           @RequestParam(name = "selectedRoles") List<Long> selRoles) {
+                           @RequestParam(name="id") Long id,
+                           @RequestParam(name = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
         userForm.setId(id);
-        userForm.setAuthorities(Set.copyOf(roleService.getRolesByIds(selRoles)));
+        userForm.setAuthorities(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.updateUser(userForm);
         return "redirect:/admin/all";
     }
 
-    @GetMapping(value="/delete")
+    @GetMapping(value = "/delete")
     public String deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
         return "redirect:/admin/all";

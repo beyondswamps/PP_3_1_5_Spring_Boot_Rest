@@ -1,68 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add user</title>
+  <meta charset="UTF-8">
+  <title>Add user</title>
 </head>
 <body>
 <form th:action="@{/admin/add}" method="post" th:object="${user}">
-    <table>
-        <tr>
-            <td>
-                <label for="username">username</label>
-            </td>
-            <td>
-                <input id="username" type="text" th:field="*{username}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="name">User name</label>
-            </td>
-            <td>
-                <input id="name" type="text" th:field="*{name}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="surname">User surname</label>
-            </td>
-            <td>
-                <input id="surname" type="text" th:field="*{surname}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="age">User age</label>
-            </td>
-            <td>
-                <input id="age" th:field="*{age}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="password">Password</label>
-            </td>
-            <td>
-                <input id="password" th:field="*{password}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="authorities">Authority</label>
-            </td>
-            <td>
-                <input id="authorities" th:field="*{authorities}" required>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" value="Add user">
-            </td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td><label for="username">username</label></td>
+      <td><input id="username" type="text" th:field="*{username}" required></td>
+    </tr>
+    <tr>
+      <td><label for="name">User name</label></td>
+      <td><input id="name" type="text" th:field="*{name}" required></td>
+    </tr>
+    <tr>
+      <td><label for="surname">User surname</label></td>
+      <td><input id="surname" type="text" th:field="*{surname}" required></td>
+    </tr>
+    <tr>
+      <td><label for="age">User age</label></td>
+      <td><input id="age" th:field="*{age}" required></td>
+    </tr>
+    <tr>
+      <td><label for="password">Password</label></td>
+      <td><input id="password" th:field="*{password}" required></td>
+    </tr>
+    <tr>
+      <td><label for="authorities">Authority</label></td>
+      <td><input type="checkbox" id="authorities" name="selectedRoles"
+               th:each="authority : ${allRoles}"
+               th:text="${authority.getName()}"
+               th:value="${authority.getId()}"></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Add user"></td>
+    </tr>
+  </table>
 </form>
-
-
 </body>
 </html>

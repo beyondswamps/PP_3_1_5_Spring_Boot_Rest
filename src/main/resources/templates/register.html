@@ -28,17 +28,18 @@
       <td><input id="password" th:field="*{password}" required></td>
     </tr>
     <tr>
-      <td><label for="roles">Authorities</label> </td>
+      <td><label for="roles">Authorities</label></td>
       <td><input id="roles" type="checkbox" name="roles"
-             th:each="role : ${allRoles}"
-             th:text="${role.getName()}"
-             th:value="${role.getId()}"
+                 th:each="role : ${allRoles}"
+                 th:text="${role.getName()}"
+                 th:value="${role.getId()}"
       /></td>
     </tr>
     <tr>
-      <td></t><input type="submit" value="Ok"></td>
+      <td><input type="submit" value="Ok"></td>
     </tr>
 
   </table>
+</form>
 </body>
 </html>

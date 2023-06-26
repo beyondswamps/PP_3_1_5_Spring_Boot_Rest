@@ -1,71 +1,53 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Users</title>
-    <style>
-        #usersTable td {
-            outline: 2px solid black;
-            margin: 10px;
-            text-align: center
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Users</title>
+  <style>
+      #usersTable td {
+          outline: 2px solid black;
+          margin: 10px;
+          text-align: center
+      }
+  </style>
 </head>
 <body>
 
 <table id="usersTable">
-    <thead>
-    <tr>
-        <th>User id</th>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Age</th>
-        <th>Encrypted user password</th>
-        <th>User authorities</th>
-        <th>Enabled</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user: ${users}">
-        <td>
-            <span th:text="${user.getId()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.getUsername()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.getName()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.getSurname()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.getAge()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.getPassword()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.listAuthorities()}"></span>
-        </td>
-        <td>
-            <span th:text="${user.isEnabled()}"></span>
-        </td>
-        <td>
-            <span><a th:href="@{edit(id=${user.getId()})}">Edit</a></span>
-        </td>
-        <td>
-            <span><a th:href="@{delete(id=${user.getId()})}">Delete</a></span>
-        </td>
-    </tr>
-    </tbody>
+  <thead>
+  <tr>
+    <th>User id</th>
+    <th>Username</th>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Age</th>
+    <th>Encrypted user password</th>
+    <th>User authorities</th>
+    <th>Enabled</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user: ${users}">
+    <td><span th:text="${user.getId()}"></span></td>
+    <td><span th:text="${user.getUsername()}"></span></td>
+    <td><span th:text="${user.getName()}"></span></td>
+    <td><span th:text="${user.getSurname()}"></span></td>
+    <td><span th:text="${user.getAge()}"></span></td>
+    <td><span th:text="${user.getPassword()}"></span></td>
+    <td><span th:text="${user.listAuthorities()}"></span></td>
+    <td><span th:text="${user.isEnabled()}"></span></td>
+    <td><span><a th:href="@{edit(id=${user.getId()})}"><button>Edit</button></a></span></td>
+    <td><span><a th:href="@{delete(id=${user.getId()})}"><button>Delete</button></a></span></td>
+  </tr>
+  </tbody>
 </table>
-<a href="/logout">Logout</a>
-<a href="/admin/add">Add user</a>
-
-
+<a href="/admin/add">
+  <button>Add user</button>
+</a>
+<a href="/logout">
+  <button>Logout</button>
+</a>
 </body>
 </html>
