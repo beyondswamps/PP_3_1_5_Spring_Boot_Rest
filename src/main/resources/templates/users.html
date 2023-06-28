@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-
+<div th:replace="fragments/headerTemplate :: header"></div>
 <table id="usersTable">
   <thead>
   <tr>
@@ -45,6 +45,5 @@
 </table>
 <div><a href="/admin/add"><button>Add user</button></a></div>
 <div><a href="/user"><button>My info</button></a></div>
-<div><a href="/logout"><button>Logout</button></a></div>
 </body>
 </html>

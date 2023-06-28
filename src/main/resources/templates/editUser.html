@@ -5,6 +5,7 @@
   <title>Edit user</title>
 </head>
 <body>
+<div th:replace="fragments/headerTemplate :: header"></div>
 <h1>Editing user: <span th:text="${user.getUsername()}"></span></h1>
 <form th:action="@{/admin/edit(id=${user.getId()})}" method="post" th:object="${user}">
   <table>

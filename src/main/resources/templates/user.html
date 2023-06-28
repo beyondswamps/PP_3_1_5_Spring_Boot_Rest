@@ -6,6 +6,7 @@
 
 <body>
 <h1>Welcome, <span th:text="${currentUser.getUsername()}"></span></h1>
+<div th:replace="fragments/headerTemplate :: header"></div>
 <table id="userInfo">
   <tr><td><span>Username: </span><span th:text="${currentUser.getUsername()}"></span></td></tr>
   <tr><td><span>Name: </span><span th:text="${currentUser.getName()}"/></td></tr>
@@ -14,6 +15,5 @@
   <tr><td><span>Roles: </span><span th:text="${currentUser.listAuthorities()}"/></td></tr>
 </table>
 <a href="/changePassword"><button>Change password</button></a>
-<a href="/logout"><button>Logout</button></a>
 </body>
 </html>
