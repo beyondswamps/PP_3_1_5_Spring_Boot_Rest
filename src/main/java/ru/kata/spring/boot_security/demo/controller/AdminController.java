@@ -35,8 +35,7 @@ public class AdminController {
 
     @PostMapping("/add")
     @Transactional
-    public String addUser(Model model,
-                          @ModelAttribute User user,
+    public String addUser(@ModelAttribute User user,
                           @RequestParam List<Long> selectedRoles) {
         user.setAuthorities(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.addUser(user);
@@ -62,8 +61,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/edit")
-    public String editUser(Model model,
-                           @ModelAttribute User userForm,
+    public String editUser(@ModelAttribute User userForm,
                            @RequestParam(name="id") Long id,
                            @RequestParam(name = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
         userForm.setId(id);

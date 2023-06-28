@@ -38,6 +38,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return userDao.getUserByUsername(username);
+    }
+
+    @Override
     public void updateUser(User userForm) {
         User userDB = userDao.getUser(userForm.getId());
         userForm.setPassword(userDB.getPassword());
@@ -48,5 +53,13 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
+    }
+
+    @Override
+    public boolean updatePassword(User user, String oldPassword, String newPassword) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) return false;
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userDao.updateUser(user);
+        return true;
     }
 }

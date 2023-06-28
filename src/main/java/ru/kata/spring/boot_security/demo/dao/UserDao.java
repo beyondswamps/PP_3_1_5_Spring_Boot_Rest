@@ -16,5 +16,5 @@ public interface UserDao {
 
     void updateUser(User user);
 
-    User getUserByUserName(String username);
+    User getUserByUsername(String username);
 }
