@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+//                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/register").not().authenticated()
                 .antMatchers("/").permitAll()
@@ -52,35 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
-
-//        User admin = new User(
-//                "admin",
-//                "Admin",
-//                "Adminov",
-//                33,
-//                Set.of(new Role("ROLE_ADMIN")),
-//                "admin",
-//                true
-//        );
-//        User user = new User(
-//                "user",
-//                "User",
-//                "Userov",
-//                33,
-//                Set.of(new Role("ROLE_USER")),
-//                "user",
-//                true
-//        );
-//
-//        userService.addUser(admin);
-//        userService.addUser(user);
-
-//        Role roleAdmin = new Role("ROLE_ADMIN");
-//        Role roleUser = new Role("ROLE_USER");
-
-//        roleService.saveRole(roleAdmin);
-//        roleService.saveRole(roleUser);
-
 
     }
 

@@ -12,7 +12,11 @@ public interface UserService {
 
     User getUser(Long id);
 
+    User getUserByUsername(String username);
+
     void updateUser(User userForm);
 
     void deleteUser(Long id);
+
+    boolean updatePassword(User user, String oldPassword, String newPassword);
 }

@@ -62,8 +62,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/edit")
-    public String editUser(Model model,
-                           @ModelAttribute User userForm,
+    public String editUser(@ModelAttribute User userForm,
                            @RequestParam(name="id") Long id,
                            @RequestParam(name = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
         userForm.setId(id);
