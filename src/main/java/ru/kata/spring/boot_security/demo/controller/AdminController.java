@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -26,10 +25,8 @@ public class AdminController {
 
     @GetMapping("/add")
     public String addUserForm(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        List<Role> allRoles = roleService.getAllRoles();
-        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("user", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "addUser";
     }
 
@@ -53,10 +50,8 @@ public class AdminController {
     @GetMapping("/edit")
     public String editUser(Model model,
                            @RequestParam Long id) {
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
-        List<Role> allRoles = roleService.getAllRoles();
-        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "editUser";
     }
 

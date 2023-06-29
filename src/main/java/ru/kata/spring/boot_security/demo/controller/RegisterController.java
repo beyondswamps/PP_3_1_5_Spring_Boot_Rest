@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,8 @@ import java.util.*;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     public RegisterController(UserService userService, RoleService roleService) {
         this.userService = userService;
@@ -26,14 +25,12 @@ public class RegisterController {
     @GetMapping
     public String getRegisterForm(Model model,
                                   @ModelAttribute("user") User user) {
-        List<Role> allRoles = roleService.getAllRoles();
-        model.addAttribute("allRoles", allRoles);
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "register";
     }
 
     @PostMapping
-    public String sendRegisterForm(Model model,
-                                   @ModelAttribute("user") User user,
+    public String sendRegisterForm(@ModelAttribute("user") User user,
                                    @RequestParam(value = "roles", defaultValue = "") List<Long> roles) {
         if (roles != null) {
             Set<Role> rolesSet = new HashSet<>();

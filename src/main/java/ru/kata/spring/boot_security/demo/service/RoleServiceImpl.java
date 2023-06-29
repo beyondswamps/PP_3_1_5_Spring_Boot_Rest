@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    RoleDao roleDao;
+    private final RoleDao roleDao;
 
     public RoleServiceImpl(RoleDao roleDao) {
         this.roleDao = roleDao;
