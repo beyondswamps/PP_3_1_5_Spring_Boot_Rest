@@ -17,6 +17,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/")
+    public String loginForm() {
+        return "login";
+    }
+
     @GetMapping("/user")
     public String showUserInfo(Model model) {
         User currentUser = (User) SecurityContextHolder
@@ -26,11 +31,6 @@ public class UserController {
 
         model.addAttribute("currentUser", currentUser);
         return "user";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
     }
 
     @GetMapping("/changePassword")

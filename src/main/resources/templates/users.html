@@ -17,9 +17,9 @@
   <thead>
   <tr>
     <th>User id</th>
-    <th>Username</th>
+    <th>Email</th>
     <th>Name</th>
-    <th>Surname</th>
+    <th>Lastname</th>
     <th>Age</th>
     <th>Encrypted user password</th>
     <th>User authorities</th>
@@ -31,9 +31,9 @@
   <tbody>
   <tr th:each="user: ${users}">
     <td><span th:text="${user.getId()}"></span></td>
-    <td><span th:text="${user.getUsername()}"></span></td>
+    <td><span th:text="${user.getEmail()}"></span></td>
     <td><span th:text="${user.getName()}"></span></td>
-    <td><span th:text="${user.getSurname()}"></span></td>
+    <td><span th:text="${user.getLastName()}"></span></td>
     <td><span th:text="${user.getAge()}"></span></td>
     <td><span th:text="${user.getPassword()}"></span></td>
     <td><span th:text="${user.listAuthorities()}"></span></td>

@@ -18,14 +18,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="username", unique = true)
-    private String username;
+    @Column(name="email", unique = true)
+    private String email;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "lastname")
+    private String lastName;
 
     @Column(name = "age")
     private Integer age;
@@ -47,10 +47,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String name, String surname, Integer age, Set<Role> authorities, String password, boolean enabled) {
-        this.username = username;
+    public User(String email, String name, String lastName, Integer age, Set<Role> authorities, String password, boolean enabled) {
+        this.email = email;
         this.name = name;
-        this.surname = surname;
+        this.lastName = lastName;
         this.age = age;
         this.authorities = authorities;
         this.password = password;
@@ -73,12 +73,12 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Integer getAge() {
@@ -93,8 +93,12 @@ public class User implements UserDetails {
         this.authorities = roles;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setPassword(String password) {
@@ -110,21 +114,21 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(age, user.age);
+        return Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, age);
+        return Objects.hash(name, lastName, age);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", last name='" + lastName + '\'' +
                 ", age=" + age +
                 ", authorities=" + authorities +
                 ", password='" + password + '\'' +
@@ -144,7 +148,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return getEmail();
     }
 
     @Override

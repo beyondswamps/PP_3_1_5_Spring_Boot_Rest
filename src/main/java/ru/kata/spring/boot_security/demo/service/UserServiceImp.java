@@ -38,15 +38,15 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return userDao.getUserByUsername(username);
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 
     @Override
     public void updateUser(User userForm) {
         User userDB = userDao.getUser(userForm.getId());
         userForm.setPassword(userDB.getPassword());
-        userForm.setUsername(userDB.getUsername());
+        userForm.setEmail(userDB.getUsername());
         userDao.updateUser(userForm);
     }
 

@@ -45,10 +45,10 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User getUserByEmail(String email) {
         Optional<User> maybeUser = entityManager
-                .createQuery("from User user join fetch user.authorities where user.username=:username", User.class)
-                .setParameter("username", username)
+                .createQuery("from User user join fetch user.authorities where user.email=:email", User.class)
+                .setParameter("email", email)
                 .getResultList()
                 .stream()
                 .findFirst();
