@@ -28,7 +28,7 @@
       <td><input id="password" th:field="*{password}" type="password" required></td>
     </tr>
     <tr>
-      <td><label for="roles">Authorities</label></td>
+      <td><label for="roles">Roles</label></td>
       <td><input id="roles" type="checkbox" name="roles"
                  th:each="role : ${allRoles}"
                  th:text="${role.getName()}"

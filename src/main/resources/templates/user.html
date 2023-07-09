@@ -12,7 +12,7 @@
   <tr><td><span>Name: </span><span th:text="${currentUser.getName()}"/></td></tr>
   <tr><td><span>Lastname: </span><span th:text="${currentUser.getLastName()}"/></td></tr>
   <tr><td><span>Age: </span><span th:text="${currentUser.getAge()}"/></td></tr>
-  <tr><td><span>Roles: </span><span th:text="${currentUser.listAuthorities()}"/></td></tr>
+  <tr><td><span>Roles: </span><span th:text="${currentUser.listRoles()}"/></td></tr>
 </table>
 <a href="/changePassword"><button>Change password</button></a>
 </body>

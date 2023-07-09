@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,15 @@ public class AdminController {
         this.roleService = roleService;
     }
 
+    @ModelAttribute
+    public void currentUser(Model model) {
+        User currentUser = (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        model.addAttribute("currentUser", currentUser);
+    }
+
     @GetMapping("/add")
     public String addUserForm(Model model) {
         model.addAttribute("user", new User());
@@ -34,16 +44,15 @@ public class AdminController {
     @Transactional
     public String addUser(@ModelAttribute User user,
                           @RequestParam List<Long> selectedRoles) {
-        user.setAuthorities(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
+        user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.addUser(user);
-        return "redirect:/admin/all";
+        return "redirect:/admin/";
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public String listUsers(Model model, User user) {
         model.addAttribute("users", userService.getUsers());
-        model.addAttribute("user", user);
         return "users";
     }
 
@@ -57,12 +66,12 @@ public class AdminController {
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute User userForm,
-                           @RequestParam(name="id") Long id,
+                           @RequestParam(name = "id") Long id,
                            @RequestParam(name = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
         userForm.setId(id);
-        userForm.setAuthorities(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
+        userForm.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.updateUser(userForm);
-        return "redirect:/admin/all";
+        return "redirect:/admin/";
     }
 
     @GetMapping(value = "/delete")
@@ -70,5 +79,4 @@ public class AdminController {
         userService.deleteUser(id);
         return "redirect:/admin/all";
     }
-
 }

@@ -40,7 +40,7 @@ public class RegisterController {
                 role.setName((roleService.findById(roles.get(i)).getName()));
                 rolesSet.add(role);
             }
-            user.setAuthorities(rolesSet);
+            user.setRoles(rolesSet);
         }
 
         userService.addUser(user);

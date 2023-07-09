@@ -25,13 +25,13 @@
       <td><input type=checkbox id="enabled" th:field="*{enabled}"></td>
     </tr>
     <tr>
-      <td><label for="authorities">Authorities</label></td>
+      <td><label for="roles">Roles</label></td>
       <td>
-        <input type=checkbox id="authorities" name="selectedRoles"
-               th:each="authority : ${allRoles}"
-               th:text="${authority.getName()}"
-               th:checked="${user.getAuthorities().contains(authority)}"
-               th:value="${authority.getId()}">
+        <input type=checkbox id="roles" name="selectedRoles"
+               th:each="role : ${allRoles}"
+               th:text="${role.getName()}"
+               th:checked="${user.getRoles().contains(role)}"
+               th:value="${role.getId()}">
       </td>
     </tr>
     <tr>

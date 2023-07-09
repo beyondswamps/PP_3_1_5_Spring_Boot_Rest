@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> authorities;
+    private Set<Role> roles;
 
     @Column(name="password")
     private String password;
@@ -47,12 +48,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String email, String name, String lastName, Integer age, Set<Role> authorities, String password, boolean enabled) {
+    public User(String email, String name, String lastName, Integer age, Set<Role> roles, String password, boolean enabled) {
         this.email = email;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.authorities = authorities;
+        this.roles = roles;
         this.password = password;
         this.enabled = enabled;
     }
@@ -89,8 +90,12 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public void setAuthorities(Set<Role> roles) {
-        this.authorities = roles;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     public void setEmail(String email) {
@@ -106,8 +111,14 @@ public class User implements UserDetails {
     }
 
     public String listAuthorities() {
-        return authorities.stream().map((authority) -> authority.getAuthority()).collect(Collectors.joining("; "));
+        return roles.stream().map((role) -> role.getAuthority()).collect(Collectors.joining(" "));
     }
+
+    public String listRoles() {
+        return roles.stream().map((role) -> role.getRole()).collect(Collectors.joining(" "));
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -130,15 +141,15 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", last name='" + lastName + '\'' +
                 ", age=" + age +
-                ", authorities=" + authorities +
+                ", roles=" + roles +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 '}';
     }
 
     @Override
-    public Set<Role> getAuthorities() {
-        return authorities;
+    public Set<? extends GrantedAuthority> getAuthorities() {
+        return roles;
     }
 
     @Override
@@ -148,7 +159,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getEmail();
+        return email;
     }
 
     @Override
