@@ -52,9 +52,9 @@ public class AdminController {
 
 
     @GetMapping("/")
-    public String listUsers(Model model, User user) {
+    public String listUsers(Model model, @ModelAttribute User user) {
         model.addAttribute("users", userService.getUsers());
-        model.addAttribute("user", new User());
+        model.addAttribute("newUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
     }
