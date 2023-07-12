@@ -53,19 +53,19 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="user: ${users}">
-                    <td><span th:text="${user.getId()}"></span></td>
-                    <td><span th:text="${user.getName()}"></span></td>
-                    <td><span th:text="${user.getLastName()}"></span></td>
-                    <td><span th:text="${user.getAge()}"></span></td>
-                    <td><span th:text="${user.getEmail()}"></span></td>
-                    <td><span th:text="${user.listRoles()}"></span></td>
+                  <tr th:each="eachUser: ${users}">
+                    <td><span th:text="${eachUser.getId()}"></span></td>
+                    <td><span th:text="${eachUser.getName()}"></span></td>
+                    <td><span th:text="${eachUser.getLastName()}"></span></td>
+                    <td><span th:text="${eachUser.getAge()}"></span></td>
+                    <td><span th:text="${eachUser.getEmail()}"></span></td>
+                    <td><span th:text="${eachUser.listRoles()}"></span></td>
 
                     <td>
-                      <button class="btn btn-info" data-toggle="modal" th:data-target="'#userModal'+${user.getId()}">
+                      <button class="btn btn-info" data-toggle="modal" th:data-target="'#userModal'+${eachUser.getId()}">
                         Edit user
                       </button>
-                      <div class="modal" th:id="'userModal'+${user.getId()}" tabindex="-1" role="dialog">
+                      <div class="modal" th:id="'userModal'+${eachUser.getId()}" tabindex="-1" role="dialog">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -73,22 +73,19 @@
                               <button type="button" class="close" data-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                              <form th:action="@{/admin/edit(id=${user.getId()})}" method="post" th:object="${user}">
+                              <form th:action="@{/admin/edit(id=${eachUser.getId()})}" method="post" th:object="${eachUser}">
                                 <table>
                                   <tr>
-                                    <td><label for="name">User name</label></td>
-                                    <td><input id="name" type="text" th:value="${user.getName()}" th:field="*{name}" required></td>
-                                  <tr>
-                                    <td><label for="editLastName">User lastname</label></td>
-                                    <td><input id="editLastName" type="text" th:field="*{lastName}" required></td>
+                                    <td><label th:for="'name'+*{id}">First name</label></td>
+                                    <td><input th:id="'name'+*{id}" th:value="*{name}" th:name="name" type="text" required></td>
                                   </tr>
                                   <tr>
-                                    <td><label for="ageEdit">User age</label></td>
-                                    <td><input id="ageEdit" th:field="*{age}" required></td>
+                                    <td><label th:for="'lastName'+*{id}">User lastname</label></td>
+                                    <td><input th:id="'lastName'+*{id}" th:value="*{lastName}" th:name="lastName" type="text"  required></td>
                                   </tr>
                                   <tr>
-                                    <td><label for="enabled">Enabled</label></td>
-                                    <td><input type=checkbox id="enabled" th:field="*{enabled}"></td>
+                                    <td><label th:for="'age'+*{age}">User age</label></td>
+                                    <td><input th:id="'age'+*{age}" th:value="*{age}" th:name="age" required></td>
                                   </tr>
                                   <tr>
                                     <td><label for="roles">Roles</label></td>
@@ -96,7 +93,7 @@
                                       <input type=checkbox id="roles" name="selectedRoles"
                                              th:each="role : ${allRoles}"
                                              th:text="${role.getName()}"
-                                             th:checked="${user.getRoles().contains(role)}"
+                                             th:checked="${eachUser.getRoles().contains(role)}"
                                              th:value="${role.getId()}">
                                     </td>
                                   </tr>
@@ -119,7 +116,7 @@
                       </div>
                     </td>
 
-                    <td><span><a th:href="@{delete(id=${user.getId()})}"><button
+                    <td><span><a th:href="@{delete(id=${eachUser.getId()})}"><button
                             class="btn btn-danger">Delete</button></a></span>
                     </td>
                   </tr>

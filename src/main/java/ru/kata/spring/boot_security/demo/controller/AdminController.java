@@ -55,6 +55,7 @@ public class AdminController {
     public String listUsers(Model model, @ModelAttribute User user) {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("newUser", new User());
+        model.addAttribute("eachUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
     }
