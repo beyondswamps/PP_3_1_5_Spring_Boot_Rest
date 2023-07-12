@@ -53,7 +53,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr th:each="eachUser: ${users}">
+                  <div th:each="eachUser: ${users}">
                     <td><span th:text="${eachUser.getId()}"></span></td>
                     <td><span th:text="${eachUser.getName()}"></span></td>
                     <td><span th:text="${eachUser.getLastName()}"></span></td>
@@ -62,7 +62,8 @@
                     <td><span th:text="${eachUser.listRoles()}"></span></td>
 
                     <td>
-                      <button class="btn btn-info" data-toggle="modal" th:data-target="'#userModal'+${eachUser.getId()}">
+                      <button class="btn btn-info" data-toggle="modal"
+                              th:data-target="'#userModal'+${eachUser.getId()}">
                         Edit user
                       </button>
                       <div class="modal" th:id="'userModal'+${eachUser.getId()}" tabindex="-1" role="dialog">
@@ -73,43 +74,57 @@
                               <button type="button" class="close" data-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                              <form th:action="@{/admin/edit(id=${eachUser.getId()})}" method="post" th:object="${eachUser}">
-                                <table>
-                                  <tr>
-                                    <td><label th:for="'name'+*{id}">First name</label></td>
-                                    <td><input th:id="'name'+*{id}" th:value="*{name}" th:name="name" type="text" required></td>
-                                  </tr>
-                                  <tr>
-                                    <td><label th:for="'lastName'+*{id}">User lastname</label></td>
-                                    <td><input th:id="'lastName'+*{id}" th:value="*{lastName}" th:name="lastName" type="text"  required></td>
-                                  </tr>
-                                  <tr>
-                                    <td><label th:for="'age'+*{age}">User age</label></td>
-                                    <td><input th:id="'age'+*{age}" th:value="*{age}" th:name="age" required></td>
-                                  </tr>
-                                  <tr>
-                                    <td><label for="roles">Roles</label></td>
-                                    <td>
-                                      <input type=checkbox id="roles" name="selectedRoles"
-                                             th:each="role : ${allRoles}"
-                                             th:text="${role.getName()}"
-                                             th:checked="${eachUser.getRoles().contains(role)}"
-                                             th:value="${role.getId()}">
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>
-                                      <input type="submit" value="Ok">
-                                    </td>
-                                  </tr>
-                                </table>
+                              <form
+                                      class="mb-3 text-center mb-0 pt-4 font-weight-bold"
+                                      th:action="@{/admin/edit(id=${eachUser.getId()})}"
+                                      th:object="${eachUser}"
+                                      method="post">
+                                <div class="form-group">
+                                  <label th:for="'id'+*{id}">ID</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'id'+*{id}" th:value="*{id}"
+                                         th:name="id" type="text" readonly required>
+                                </div>
+                                <div class="form-group">
+                                  <label th:for="'name'+*{id}">First name</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'name'+*{id}" th:value="*{name}"
+                                         th:name="name" type="text" required>
+                                </div>
+                                <div class="form-group">
+                                  <label th:for="'lastName'+*{id}">User lastname</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'lastName'+*{id}"
+                                         th:value="*{lastName}" th:name="lastName" type="text" required>
+                                </div>
+                                <div class="form-group">
+                                  <label th:for="'email'+*{age}">User age</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'age'+*{id}" th:value="*{age}"
+                                         th:name="age" required>
+                                </div>
+                                <div class="form-group">
+                                  <label th:for="'email'+*{email}">Email</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'email'+*{id}" th:value="*{email}"
+                                         th:name="email" required>
+                                </div>
+                                <div class="form-group">
+                                  <label th:for="'password'+*{password}">Password</label>
+                                  <input class="form-control col-4 mx-auto" th:id="'password'+*{password}"
+                                         th:name="password">
+                                </div>
+
+                                <div class="form-group col-4 mx-auto">
+                                  <label for="roles">Role</label>
+                                  <select multiple class="form-control" id="roles" name="selectedRoles">
+                                    <option
+                                            th:each="role : ${allRoles}"
+                                            th:text="${role.getName()}"
+                                            th:value="${role.getId()}"
+                                    ></option>
+                                  </select>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <input type="submit" class="btn btn-primary" th:value="Edit"></input>
+                                </div>
                               </form>
-
-
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary">Edit</button>
                             </div>
                           </div>
                         </div>
@@ -119,7 +134,7 @@
                     <td><span><a th:href="@{delete(id=${eachUser.getId()})}"><button
                             class="btn btn-danger">Delete</button></a></span>
                     </td>
-                  </tr>
+                    </tr>
                   </tbody>
                 </table>
               </div>
