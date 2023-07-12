@@ -23,10 +23,10 @@
         </a>
       </div>
     </div>
-    <div class="col-9 bg-light vh-100">
+    <div class="col-9 bg-light">
       <div class="tab-content">
         <div class="tab-pane fade show active" id="admin-tab-content">
-          <div class="m-3">
+          <div class="m-3 bg-white">
             <div class="h2">Admin panel</div>
             <nav>
               <div class="nav nav-tabs">
@@ -60,8 +60,34 @@
                     <td><span th:text="${user.getAge()}"></span></td>
                     <td><span th:text="${user.getEmail()}"></span></td>
                     <td><span th:text="${user.listRoles()}"></span></td>
-                    <td><span><a th:href="@{edit(id=${user.getId()})}"><button
-                            class="btn btn-info">Edit</button></a></span></td>
+<!--                    <td><span><a th:href="@{edit(id=${user.getId()})}"><button-->
+<!--                            class="btn btn-info">Edit</button></a></span></td>-->
+
+                    <td><button class="btn btn-info" data-toggle="modal" data-target="#editUserModal">Edit user</button></td>
+                    <div class="modal" id="editUserModal" tabindex="-1" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit user</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+<!--                              <span aria-hidden="true">&times;</span>-->
+                            </button>
+                          </div>
+                          <div class="modal-body">
+
+
+
+
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Edit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <td><span><a th:href="@{delete(id=${user.getId()})}"><button
                             class="btn btn-danger">Delete</button></a></span>
                     </td>
@@ -72,26 +98,40 @@
               <div id="new-user-tab" class="tab-pane">
                 <div class="h5 bg-light border py-2 px-4 m-0">Add new user</div>
                 <div>
-                  <form>
-                    <div class="form-group text-center bg-white mb-0 pt-4">
-                      <label for="firstName" class="font-weight-bold">First name</label>
-                      <input id="firstName" class="form-control col-4 mx-auto" type="text">
+                  <form class="mb-3 text-center mb-0 pt-4 font-weight-bold" th:action="@{/admin/add}" method="post"
+                        th:object="${user}">
+                    <div class="form-group">
+                      <label for="firstName">First name</label>
+                      <input id="firstName" class="form-control col-4 mx-auto" th:field="*{name}" type="text">
                     </div>
-                    <div class="form-group text-center bg-white mb-0 pt-4">
-                      <label for="lastName" class="font-weight-bold">Last name</label>
-                      <input id="lastName" class="form-control col-4 mx-auto" type="email">
+                    <div class="form-group">
+                      <label for="lastName">Last name</label>
+                      <input id="lastName" class="form-control col-4 mx-auto" th:field="*{lastName}" type="text">
                     </div>
-                    <div class="form-group text-center bg-white mb-0 pt-4">
-                      <label for="age" class="font-weight-bold">Age</label>
-                      <input id="age" class="form-control col-4 mx-auto" type="text">
+                    <div class="form-group">
+                      <label for="age">Age</label>
+                      <input id="age" class="form-control col-4 mx-auto" th:field="*{age}" type="text">
                     </div>
-                    <div class="form-group text-center bg-white mb-0 pt-4">
-                      <label for="email" class="font-weight-bold">Email</label>
-                      <input id="email" class="form-control col-4 mx-auto" type="email">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input id="email" class="form-control col-4 mx-auto" th:field="*{email}" type="email">
                     </div>
-                    <div class="form-group text-center bg-white mb-0 pt-4">
-                      <label for="password" class="font-weight-bold">Password</label>
-                      <input id="password" class="form-control col-4 mx-auto" type="password">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input id="password" class="form-control col-4 mx-auto" th:field="*{password}" type="password">
+                    </div>
+                    <div class="form-group col-4 mx-auto">
+                      <label for="roleSelection">Role</label>
+                      <select multiple class="form-control" id="roleSelection" name="selectedRoles" >
+                        <option
+                                th:each="role : ${allRoles}"
+                                th:text="${role.getName()}"
+                                th:value="${role.getId()}"
+                                ></option>
+                      </select>
+                    </div>
+                    <div>
+                      <input class="btn btn-success col-2 text-center" type="submit" value="Add new user">
                     </div>
                   </form>
                 </div>
