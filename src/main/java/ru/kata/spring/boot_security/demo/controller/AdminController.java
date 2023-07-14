@@ -4,7 +4,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -27,18 +26,11 @@ public class AdminController {
 
     @ModelAttribute
     public void currentUser(Model model) {
-        User currentUser = (User) SecurityContextHolder
+        model.addAttribute("currentUser",
+                (User) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal();
-        model.addAttribute("currentUser", currentUser);
-    }
-
-    @GetMapping("/add")
-    public String addUserForm(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "addUser";
+                .getPrincipal());
     }
 
     @PostMapping("/add")
@@ -50,22 +42,13 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-
     @GetMapping("/")
-    public String listUsers(Model model, @ModelAttribute User user) {
+    public String listUsers(Model model) {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("newUser", new User());
         model.addAttribute("eachUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
-    }
-
-    @GetMapping("/edit")
-    public String editUser(Model model,
-                           @RequestParam Long id) {
-        model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        return "editUser";
     }
 
     @PostMapping(value = "/edit")

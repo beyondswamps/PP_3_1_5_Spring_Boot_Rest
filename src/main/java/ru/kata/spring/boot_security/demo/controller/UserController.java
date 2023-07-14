@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -15,6 +17,15 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void currentUser(Model model) {
+        model.addAttribute("currentUser",
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal());
     }
 
     @GetMapping("/")
@@ -30,11 +41,16 @@ public class UserController {
                 .getPrincipal();
 
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("userIsAdmin",
+                currentUser.getAuthorities().stream().
+                        map(role->role.getAuthority())
+                        .collect(Collectors.toSet())
+                        .contains("ROLE_ADMIN"));
         return "user";
     }
 
     @GetMapping("/changePassword")
-    public String getChangePassword() {
+    public String getChangePassword(Model model) {
         return "changePass";
     }
 

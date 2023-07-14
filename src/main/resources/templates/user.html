@@ -1,19 +1,72 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
-  <title>Spring Security Example</title>
+  <title>User info</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device=width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+  <title>User page</title>
 </head>
-
-<body>
-<h1>Welcome, <span th:text="${currentUser.getUsername()}"></span></h1>
+<body style="font-family: 'Segoe UI'">
 <div th:replace="fragments/headerTemplate :: header"></div>
-<table id="userInfo">
-  <tr><td><span>Email: </span><span th:text="${currentUser.getEmail()}"></span></td></tr>
-  <tr><td><span>Name: </span><span th:text="${currentUser.getName()}"/></td></tr>
-  <tr><td><span>Lastname: </span><span th:text="${currentUser.getLastName()}"/></td></tr>
-  <tr><td><span>Age: </span><span th:text="${currentUser.getAge()}"/></td></tr>
-  <tr><td><span>Roles: </span><span th:text="${currentUser.listRoles()}"/></td></tr>
-</table>
-<a href="/changePassword"><button>Change password</button></a>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2 px-0">
+      <div class="nav nav-pills flex-column mt-3">
+        <th:block th:if="${userIsAdmin} == true">
+          <a class="nav-link text-left" href="/admin/"
+             type="button">Admin
+          </a>
+        </th:block>
+        <a class="nav-link active text-left" data-toggle="pill" data-target="#user-tab-content"
+           type="button">User
+        </a>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="bg-white m-3" id="user-tab-content">
+        <div class="h1 bg-light mb-0 pb-2">User information-page</div>
+        <div class="h5 bg-light border py-2 px-4 m-0">About user</div>
+        <div class="p-4 border">
+          <table id="userInfoTable" class="table table-striped pb-0">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>First name</th>
+              <th>Last Name</th>
+              <th>Age</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="container">
+              <td th:text="${currentUser.getId()}">id</td>
+              <td th:text="${currentUser.getName()}">name</td>
+              <td th:text="${currentUser.getLastName()}">lastname</td>
+              <td th:text="${currentUser.getAge()}">age</td>
+              <td th:text="${currentUser.getEmail()}">email</td>
+              <td th:text="${currentUser.listRoles()}">roles</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+        crossorigin="anonymous"></script>
 </body>
 </html>
