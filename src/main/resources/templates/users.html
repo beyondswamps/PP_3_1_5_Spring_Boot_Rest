@@ -8,12 +8,12 @@
   <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
   <title>Users</title>
 </head>
-<body>
+<body style="font-family: 'Segoe UI'">
 <div th:replace="fragments/headerTemplate :: header"></div>
 
-<div class="container-fluid vh-100">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-3 px-0">
+    <div class="col-2 px-0">
       <div class="nav nav-pills flex-column mt-3">
         <a class="nav-link active text-left" data-toggle="pill" data-target="#admin-tab-content"
            type="button">Admin
@@ -23,11 +23,11 @@
         </a>
       </div>
     </div>
-    <div class="col-9 bg-light">
+    <div class="col-10 bg-light vh-100">
       <div class="tab-content">
         <div class="tab-pane fade show active" id="admin-tab-content">
-          <div class="m-3 bg-white">
-            <div class="h2">Admin panel</div>
+          <div class="m-3 bg-light">
+            <div class="h1">Admin panel</div>
             <nav>
               <div class="nav nav-tabs">
                 <a class="nav-link active" data-toggle="tab" data-target="#all-users-tab" type="button">Users
@@ -39,7 +39,7 @@
             <div class="tab-content border">
               <div class="tab-pane show active" id="all-users-tab">
                 <div class="h5 bg-light border py-2 px-4 m-0">All users</div>
-                <div class="p-4">
+                <div class="p-4 bg-white">
                   <table id="usersTable" class="table table-striped pb-0">
                     <thead>
                     <tr>
@@ -265,8 +265,41 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="user-tab-content">
-        </div>
+
+
+
+          <div class="tab-pane fade bg-white m-3" id="user-tab-content">
+
+            <div class="h1 bg-light mb-0 pb-2">User-information page</div>
+
+
+            <div class="h5 bg-light border py-2 px-4 m-0">About user</div>
+            <div class="p-4 border">
+              <table id="userInfoTable" class="table table-striped pb-0">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First name</th>
+                  <th>Last Name</th>
+                  <th>Age</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="container">
+                  <td th:text="${currentUser.getId()}">id</td>
+                  <td th:text="${currentUser.getName()}">name</td>
+                  <td th:text="${currentUser.getLastName()}">lastname</td>
+                  <td th:text="${currentUser.getAge()}">age</td>
+                  <td th:text="${currentUser.getEmail()}">email</td>
+                  <td th:text="${currentUser.listRoles()}">roles</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
       </div>
     </div>
   </div>
