@@ -35,7 +35,6 @@ build/
 
 ##Custom
 
-/.mvn/
 /mvnw.cmd
 /mvnw
 spring-boot_security-demo.iml
