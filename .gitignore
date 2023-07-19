@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+/.mvn/
+
+##Custom
+
+/.mvn/
+/mvnw.cmd
+/mvnw
+spring-boot_security-demo.iml
+
