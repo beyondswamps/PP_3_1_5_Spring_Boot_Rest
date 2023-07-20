@@ -29,7 +29,7 @@
     </tr>
     <tr>
       <td><label for="roles">Roles</label></td>
-      <td><input id="roles" type="checkbox" name="roles"
+      <td><input id="roles" type="checkbox" name="selectedRoles"
                  th:each="role : ${allRoles}"
                  th:text="${role.getName()}"
                  th:value="${role.getId()}"

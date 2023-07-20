@@ -5,7 +5,6 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -14,7 +13,6 @@ public class RoleDaoImpl implements RoleDao {
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public List<Role> getAllRoles() {
         return entityManager.
                 createQuery("from Role", Role.class)
@@ -30,7 +28,6 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    @Transactional
     public void saveRole(Role role) {
         entityManager
                 .persist(role);

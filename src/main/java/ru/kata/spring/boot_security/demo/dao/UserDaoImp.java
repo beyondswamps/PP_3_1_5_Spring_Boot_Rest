@@ -5,7 +5,6 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -23,14 +22,12 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    @Transactional
     public void addUser(User user) {
         entityManager
                 .persist(user);
     }
 
     @Override
-    @Transactional
     public List<User> getUsers() {
         return entityManager
                 .createQuery("from User", User.class)
@@ -38,7 +35,6 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    @Transactional
     public User getUser(Long id) {
         return entityManager
                 .find(User.class, id);
@@ -57,13 +53,11 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
         entityManager
                 .merge(user);
     }
 
-    @Transactional
     @Override
     public void deleteUser(Long id) {
         entityManager

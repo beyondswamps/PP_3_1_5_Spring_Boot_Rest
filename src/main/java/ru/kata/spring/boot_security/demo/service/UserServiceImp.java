@@ -12,10 +12,9 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
     private final UserDao userDao;
-
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.userDao = userDao;
     }
@@ -43,6 +42,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(User userForm) {
         User userDB = userDao.getUser(userForm.getId());
         userForm.setPassword(userDB.getPassword());
@@ -51,11 +51,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
     }
 
     @Override
+    @Transactional
     public boolean updatePassword(User user, String oldPassword, String newPassword) {
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) return false;
         user.setPassword(passwordEncoder.encode(newPassword));

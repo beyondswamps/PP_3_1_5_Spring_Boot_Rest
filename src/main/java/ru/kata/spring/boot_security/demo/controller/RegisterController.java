@@ -2,13 +2,19 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 @Controller
 @RequestMapping("/register")
@@ -31,20 +37,9 @@ public class RegisterController {
 
     @PostMapping
     public String sendRegisterForm(@ModelAttribute("user") User user,
-                                   @RequestParam(value = "roles", defaultValue = "") List<Long> roles) {
-        if (roles != null) {
-            Set<Role> rolesSet = new HashSet<>();
-            for (int i = 0; i < roles.size(); i++) {
-                Role role = new Role();
-                role.setId(roles.get(i));
-                role.setName((roleService.findById(roles.get(i)).getName()));
-                rolesSet.add(role);
-            }
-            user.setRoles(rolesSet);
-        }
-
+                                   @RequestParam(value = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
+        user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
         userService.addUser(user);
         return "redirect:/";
-
     }
 }
