@@ -31,7 +31,7 @@ public class AdminController {
     @ModelAttribute
     public void currentUser(Model model) {
         model.addAttribute("currentUser",
-                (User) SecurityContextHolder
+                SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal());

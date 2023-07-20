@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/changePassword")
-    public String getChangePassword(Model model) {
+    public String getChangePassword() {
         return "changePass";
     }
 
