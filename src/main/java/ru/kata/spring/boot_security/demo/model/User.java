@@ -11,7 +11,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -121,11 +120,11 @@ public class User implements UserDetails {
     }
 
     public String listAuthorities() {
-        return roles.stream().map((role) -> role.getAuthority()).collect(Collectors.joining(" "));
+        return roles.stream().map(Role::getAuthority).collect(Collectors.joining(" "));
     }
 
     public String listRoles() {
-        return roles.stream().map((role) -> role.getRole()).collect(Collectors.joining(" "));
+        return roles.stream().map(Role::getRole).collect(Collectors.joining(" "));
     }
 
 

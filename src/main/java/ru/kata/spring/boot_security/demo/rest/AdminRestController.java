@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.rest;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +17,10 @@ import java.util.List;
 public class AdminRestController {
 
     private final UserService userService;
-    private final RoleService roleService;
-
     private final UserDtoService userDtoService;
 
-    public AdminRestController(UserService userService, RoleService roleService, UserDtoService userDtoService) {
+    public AdminRestController(UserService userService, UserDtoService userDtoService) {
         this.userService = userService;
-        this.roleService = roleService;
         this.userDtoService = userDtoService;
     }
 
