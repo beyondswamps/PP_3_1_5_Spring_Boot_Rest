@@ -22,7 +22,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void addUser(User user) {
+    public void saveUser(User user) {
         entityManager
                 .persist(user);
     }

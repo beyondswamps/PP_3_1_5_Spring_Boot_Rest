@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -31,8 +32,8 @@ public class User implements UserDetails {
     @Column(name="email")
     private String email;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstname")
+    private String firstName;
 
     @Column(name = "lastname")
     private String lastName;
@@ -57,9 +58,9 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String email, String name, String lastName, Integer age, Set<Role> roles, String password, boolean enabled) {
+    public User(String email, String firstName, String lastName, Integer age, Set<Role> roles, String password, boolean enabled) {
         this.email = email;
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.roles = roles;
@@ -75,12 +76,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public String getLastName() {
@@ -134,12 +135,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
+        return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, lastName, age);
+        return Objects.hash(firstName, lastName, age);
     }
 
     @Override
@@ -147,7 +148,7 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + firstName + '\'' +
                 ", last name='" + lastName + '\'' +
                 ", age=" + age +
                 ", roles=" + roles +

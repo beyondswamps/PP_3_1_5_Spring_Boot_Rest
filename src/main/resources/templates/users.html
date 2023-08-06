@@ -55,7 +55,7 @@
                     <tbody>
                     <tr class="container" th:each="eachUser: ${users}">
                       <td th:text="${eachUser.getId()}">id</td>
-                      <td th:text="${eachUser.getName()}">name</td>
+                      <td th:text="${eachUser.getFirstName()}">name</td>
                       <td th:text="${eachUser.getLastName()}">lastname</td>
                       <td th:text="${eachUser.getAge()}">age</td>
                       <td th:text="${eachUser.getEmail()}">email</td>
@@ -87,9 +87,9 @@
                                              th:name="id" type="text" readonly required>
                                     </div>
                                     <div class="form-group">
-                                      <label th:for="'name'+*{id}">First name</label>
-                                      <input class="form-control" th:id="'name'+*{id}" th:value="*{name}"
-                                             th:name="name" type="text" required>
+                                      <label th:for="'firstName'+*{id}">First name</label>
+                                      <input class="form-control" th:id="'firstName'+*{id}" th:value="*{firstName}"
+                                             th:name="firstName" type="text" required>
                                     </div>
                                     <div class="form-group">
                                       <label th:for="'lastName'+*{id}">Last name</label>
@@ -163,8 +163,8 @@
                                     </div>
                                     <div class="form-group">
                                       <label th:for="'nameDeleteForm'+*{id}">First name</label>
-                                      <input class="form-control" th:id="'nameDeleteForm'+*{id}" th:value="*{name}"
-                                             th:name="name" type="text" disabled>
+                                      <input class="form-control" th:id="'nameDeleteForm'+*{id}" th:value="*{firstName}"
+                                             th:name="firstName" type="text" disabled>
                                     </div>
                                     <div class="form-group">
                                       <label th:for="'lastNameDeleteForm'+*{id}">Last name</label>
@@ -219,7 +219,7 @@
                     <div class="form-group">
                       <label for="firstName" class="mb-0">First name</label>
                       <input id="firstName" placeholder="First name" class="form-control col-4 mx-auto"
-                             th:field="*{name}" type="text">
+                             th:field="*{firstName}" type="text">
                     </div>
                     <div class="form-group">
                       <label for="lastName" class="mb-0">Last name</label>
@@ -281,7 +281,7 @@
               <tbody>
               <tr class="container">
                 <td th:text="${currentUser.getId()}">id</td>
-                <td th:text="${currentUser.getName()}">name</td>
+                <td th:text="${currentUser.getFirstName()}">name</td>
                 <td th:text="${currentUser.getLastName()}">lastname</td>
                 <td th:text="${currentUser.getAge()}">age</td>
                 <td th:text="${currentUser.getEmail()}">email</td>

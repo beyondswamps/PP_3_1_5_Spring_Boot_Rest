@@ -38,7 +38,7 @@ public class RegisterController {
     public String sendRegisterForm(@ModelAttribute("user") User user,
                                    @RequestParam(value = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
         user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
-        userService.addUser(user);
+        userService.saveUser(user);
         return "redirect:/";
     }
 }

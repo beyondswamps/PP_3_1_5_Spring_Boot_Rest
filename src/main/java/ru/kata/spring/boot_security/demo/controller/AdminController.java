@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -38,11 +37,10 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    @Transactional
     public String addUser(@ModelAttribute User user,
                           @RequestParam List<Long> selectedRoles) {
         user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
-        userService.addUser(user);
+        userService.saveUser(user);
         return "redirect:/admin/";
     }
 
