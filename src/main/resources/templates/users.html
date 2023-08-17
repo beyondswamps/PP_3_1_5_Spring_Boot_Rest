@@ -142,6 +142,75 @@
     </div>
   </div>
 </div>
+
+<!-- modal views section starts -->
+
+<!-- User edition modal view -->
+<div class="modal" id="userEditModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit user</h5>
+        <button type="button" id="closeModalXButton" class="close" data-dismiss="modal" onclick="clearUserEditModal()">&times;</button>
+      </div>
+      <div class="modal-body p-0">
+        <form
+                class="text-center mb-0 pt-4 font-weight-bold"
+                action="/api/users/edit"
+                method="post">
+          <div class="col-6 mx-auto">
+            <div class="form-group ">
+              <label for="idInput">ID</label>
+              <input class="form-control" id="idInput" type="text" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="firstNameInput">First name</label>
+              <input class="form-control" id="firstNameInput" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="lastNameInput">Last name</label>
+              <input class="form-control" id="lastNameInput" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="ageInput">Age</label>
+              <input class="form-control" type="number" id="ageInput" required>
+            </div>
+            <div class="form-group">
+              <label for="emailInput">Email</label>
+              <input class="form-control" id="emailInput" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="passwordInput">Password</label>
+              <input class="form-control" id="passwordInput" readonly>
+            </div>
+            <div class="form-group p-0">
+              <label for="roles">Role</label>
+              <select multiple size="2" class="form-control pre-scrollable" id="roles"
+                      name="selectedRoles">
+                <option
+                        th:each="role : ${allRoles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearUserEditModal()">Close</button>
+            <input type="button" class="btn btn-primary" th:value="Edit" onclick="submitUserEdit()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------->
+
+
+
+
+<!-- modal views section ends -->
+
 <script src="/static/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

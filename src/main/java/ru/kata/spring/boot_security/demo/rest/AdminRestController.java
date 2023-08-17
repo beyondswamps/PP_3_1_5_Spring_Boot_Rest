@@ -19,7 +19,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class AdminRestController {
 
     private final UserService userService;
@@ -30,29 +30,29 @@ public class AdminRestController {
         this.userDtoService = userDtoService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public List<User> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public UserDto getUser(@PathVariable Long userId) {
         return userDtoService.getUserDtoById(userId);
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveNewUser(@RequestBody UserDto userDto) {
         userDtoService.saveUserDto(userDto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/users/edit")
+    @PostMapping("/edit")
     public ResponseEntity<HttpStatus> editUser(@RequestBody UserDto userDto) {
         userDtoService.editUserDto(userDto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/users/delete")
+    @PostMapping("/delete")
     public ResponseEntity<HttpStatus> deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
