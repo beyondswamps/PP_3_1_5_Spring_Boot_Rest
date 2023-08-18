@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +48,7 @@ public class UserController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("userIsAdmin",
                 currentUser.getAuthorities().stream().
-                        map(role->role.getAuthority())
+                        map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet())
                         .contains("ROLE_ADMIN"));
         return "user";

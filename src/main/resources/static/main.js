@@ -5,9 +5,6 @@ const url = 'http://localhost:8080/api/users'
 refreshUserTable();
 
 
-
-
-
 async function refreshUserTable() {
     const users = await (await fetch(url)).json();
     const usersTable = document.getElementById('usersTableBody');
@@ -63,7 +60,7 @@ async function toggleUserEditModal(id) {
     document.getElementById('passwordInput').value = user.password;
     [...document.getElementById('roles').options]
         .filter(option => user.rolesIds.includes(parseInt(option.value)))
-        .forEach(option => option.selected=true);
+        .forEach(option => option.selected = true);
 
     document.getElementById('userEditModal').style.display = 'block';
 }
@@ -76,7 +73,7 @@ function clearUserEditModal() {
     document.getElementById('emailInput').value = '';
     document.getElementById('passwordInput').value = '';
     [...document.getElementById('roles').options]
-        .forEach(option => option.selected=false);
+        .forEach(option => option.selected = false);
 }
 
 async function submitUserEdit() {
@@ -94,12 +91,14 @@ async function submitUserEdit() {
             rolesIds: [...document.getElementById('roles').options]
                 .filter(option => option.selected === true)
                 .map(option => parseInt(option.value))
-            })
+        })
     }
 
     let response = await fetch(`${url}/edit`, request);
-    document.getElementById('closeEditModalXButton').click();
-    refreshUserTable();
+    if (response.ok) {
+        document.getElementById('closeEditModalXButton').click();
+        refreshUserTable()
+    }
 }
 
 async function toggleUserDeleteModal(id) {
@@ -113,7 +112,7 @@ async function toggleUserDeleteModal(id) {
     // document.getElementById('').value = user.password;
     [...document.getElementById('rolesSelectDeleteModal').options]
         .filter(option => user.rolesIds.includes(parseInt(option.value)))
-        .forEach(option => option.selected=true);
+        .forEach(option => option.selected = true);
 
     document.getElementById('userDeleteModal').style.display = 'block';
 }
@@ -167,5 +166,5 @@ function clearNewUserForm() {
     document.getElementById('emailInputNewUserForm').value = '';
     document.getElementById('passwordInputNewUserForm').value = '';
     [...document.getElementById('roleSelectionInputNewUserForm').options]
-        .forEach(option => option.selected=false);
+        .forEach(option => option.selected = false);
 }
