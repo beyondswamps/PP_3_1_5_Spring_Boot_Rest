@@ -38,11 +38,11 @@ async function refreshUserTable() {
               </td>
               <td>
                 <button id="toggleDeleteUserModalButton"
-                        class="btn btn-info"
+                        class="btn btn-danger"
                         data-toggle="modal"
                         data-target="#userDeleteModal"
                         onclick="toggleUserDeleteModal(${eachUser.id})">
-                  Edit
+                  Delete
                 </button>
               </td>
             </tr>`
@@ -97,11 +97,75 @@ async function submitUserEdit() {
             })
     }
 
-    let response = await fetch(url + '/edit', request);
-    document.getElementById('closeModalXButton').click();
+    let response = await fetch(`${url}/edit`, request);
+    document.getElementById('closeEditModalXButton').click();
     refreshUserTable();
 }
 
-async function submitUserDelete() {
+async function toggleUserDeleteModal(id) {
+    const user = await (await fetch(url + `/${id}`)).json();
 
+    document.getElementById('idInputDeleteModal').value = id;
+    document.getElementById('firstNameInputDeleteModal').value = user.firstName;
+    document.getElementById('lastNameInputDeleteModal').value = user.lastName;
+    document.getElementById('ageInputDeleteModal').value = user.age;
+    document.getElementById('emailInputDeleteModal').value = user.email;
+    // document.getElementById('').value = user.password;
+    [...document.getElementById('rolesSelectDeleteModal').options]
+        .filter(option => user.rolesIds.includes(parseInt(option.value)))
+        .forEach(option => option.selected=true);
+
+    document.getElementById('userDeleteModal').style.display = 'block';
+}
+
+async function submitUserDelete() {
+    let request = {
+        method: 'POST'
+    };
+
+    let id = document.getElementById('idInputDeleteModal').value;
+
+    await fetch(`${url}/delete?id=${id}`, request);
+
+    document.getElementById('closeDeleteModalXButton').click();
+
+    refreshUserTable();
+}
+
+async function submitNewUserForm() {
+    const newUser = {
+        'email': document.getElementById('emailInputNewUserForm').value,
+        'firstName': document.getElementById('firstNameInputNewUserForm').value,
+        'lastName': document.getElementById('lastNameInputNewUserForm').value,
+        'age': document.getElementById('ageInputNewUserForm').value,
+        'password': document.getElementById('passwordInputNewUserForm').value,
+        'rolesIds': [...document.getElementById('roleSelectionInputNewUserForm').options]
+            .filter(option => option.selected === true)
+            .map(option => parseInt(option.value))
+    }
+
+    const request = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    }
+
+    let response = await fetch(`${url}/new`, request);
+    if (response.ok) {
+        refreshUserTable();
+        document.getElementById('usersTableTab').click();
+        clearNewUserForm();
+    }
+}
+
+function clearNewUserForm() {
+    document.getElementById('firstNameInputNewUserForm').value = '';
+    document.getElementById('lastNameInputNewUserForm').value = '';
+    document.getElementById('ageInputNewUserForm').value = '';
+    document.getElementById('emailInputNewUserForm').value = '';
+    document.getElementById('passwordInputNewUserForm').value = '';
+    [...document.getElementById('roleSelectionInputNewUserForm').options]
+        .forEach(option => option.selected=false);
 }

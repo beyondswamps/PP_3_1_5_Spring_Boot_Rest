@@ -15,28 +15,34 @@
     <div class="col-2 px-0">
       <div class="nav nav-pills flex-column mt-3">
         <a class="nav-link active text-left" data-toggle="pill" data-target="#admin-tab-content"
-           type="button">Admin
+           type="button" th:if="">Admin
         </a>
-        <a class="nav-link text-left" href="/user/"
+        <a class="nav-link text-left" data-toggle="pill" data-target="#user-tab-content"
            type="button">User
         </a>
       </div>
     </div>
     <div class="col-10 bg-light vh-100">
       <div class="tab-content">
-        <div class="tab-pane fade show active" id="admin-tab-content">
+        <div id="admin-tab-content" class="tab-pane fade show active">
           <div class="m-3 bg-light">
             <div class="h1">Admin panel</div>
             <nav>
               <div class="nav nav-tabs">
-                <a class="nav-link active" data-toggle="tab" data-target="#all-users-tab" type="button">Users
+                <a id="usersTableTab"
+                   class="nav-link active"
+                   data-toggle="tab" data-target="#usersTableTabContent"
+                   type="button">Users
                   table
                 </a>
-                <a class="nav-link" data-toggle="tab" data-target="#new-user-tab" type="button">New user</a>
+                <a id="newUserTab"
+                   class="nav-link"
+                   data-toggle="tab" data-target="#newUserFormTabContent"
+                   type="button">New user</a>
               </div>
             </nav>
             <div class="tab-content border">
-              <div class="tab-pane show active" id="all-users-tab">
+              <div id="usersTableTabContent" class="tab-pane show active">
                 <div class="h5 bg-light border py-2 px-4 m-0">All users</div>
                 <div class="p-4 bg-white">
                   <table id="usersTable" class="table table-striped pb-0">
@@ -58,40 +64,34 @@
                   </table>
                 </div>
               </div>
-              <div id="new-user-tab" class="tab-pane">
+              <div id="newUserFormTabContent" class="tab-pane">
                 <div class="h5 bg-light border py-2 px-4 m-0">Add new user</div>
                 <div class="bg-white">
-                  <form class="text-center pt-4 font-weight-bold" th:action="@{/admin/add}" method="post"
-                        th:object="${newUser}">
+                  <form class="text-center pt-4 font-weight-bold">
                     <div class="form-group">
-                      <label for="firstName" class="mb-0">First name</label>
-                      <input id="firstName" placeholder="First name" class="form-control col-4 mx-auto"
-                             th:field="*{firstName}" type="text">
+                      <label for="firstNameInputNewUserForm" class="mb-0">First name</label>
+                      <input id="firstNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="First name" type="text">
                     </div>
                     <div class="form-group">
-                      <label for="lastName" class="mb-0">Last name</label>
-                      <input id="lastName" placeholder="Last name" class="form-control col-4 mx-auto"
-                             th:field="*{lastName}" type="text">
+                      <label for="lastNameInputNewUserForm" class="mb-0">Last name</label>
+                      <input id="lastNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Last name" type="text">
                     </div>
                     <div class="form-group">
-                      <label for="age" class="mb-0">Age</label>
-                      <input id="age" placeholder="Age" class="form-control col-4 mx-auto" th:field="*{age}"
-                             type="number">
+                      <label for="ageInputNewUserForm" class="mb-0">Age</label>
+                      <input id="ageInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Age" type="number">
                     </div>
                     <div class="form-group">
-                      <label for="email" class="mb-0">Email</label>
-                      <input id="email" placeholder="Email" class="form-control col-4 mx-auto" th:field="*{email}"
-                             type="email">
+                      <label for="emailInputNewUserForm" class="mb-0">Email</label>
+                      <input id="emailInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Email" type="email">
                     </div>
                     <div class="form-group">
-                      <label for="password" class="mb-0">Password</label>
-                      <input id="password" placeholder="Password" class="form-control col-4 mx-auto"
-                             th:field="*{password}" type="password">
+                      <label for="passwordInputNewUserForm" class="mb-0">Password</label>
+                      <input id="passwordInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Password" type="password">
                     </div>
                     <div class="form-group col-4 mx-auto p-0">
-                      <label for="roleSelection" class="mb-0">Role</label>
-                      <select multiple size="2" class="form-control w-100 text-secondary pre-scrollable"
-                              id="roleSelection"
+                      <label for="roleSelectionInputNewUserForm" class="mb-0">Role</label>
+                      <select id="roleSelectionInputNewUserForm"
+                              class="form-control w-100 text-secondary pre-scrollable" multiple size="2"
                               name="selectedRoles">
                         <option
                                 th:each="role : ${allRoles}"
@@ -101,8 +101,10 @@
                       </select>
                     </div>
                     <div class="pb-3">
-                      <input class="btn btn-success text-wrap btn-lg col-2 text-center" type="submit"
-                             value="Add new user">
+                      <input class="btn btn-success text-wrap btn-lg col-2 text-center"
+                             type="button"
+                             value="Add new user"
+                             onclick="submitNewUserForm()"/>
                     </div>
                   </form>
                 </div>
@@ -110,7 +112,7 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade bg-white m-3" id="user-tab-content">
+        <div id="user-tab-content" class="tab-pane fade bg-white m-3">
           <div class="h1 bg-light mb-0 pb-2">User-information page</div>
           <div class="h5 bg-light border py-2 px-4 m-0">About user</div>
           <div class="p-4 border">
@@ -151,7 +153,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit user</h5>
-        <button type="button" id="closeModalXButton" class="close" data-dismiss="modal" onclick="clearUserEditModal()">&times;</button>
+        <button class="close" type="button" id="closeEditModalXButton" data-dismiss="modal" onclick="clearUserEditModal()">&times;</button>
       </div>
       <div class="modal-body p-0">
         <form
@@ -161,31 +163,31 @@
           <div class="col-6 mx-auto">
             <div class="form-group ">
               <label for="idInput">ID</label>
-              <input class="form-control" id="idInput" type="text" readonly required>
+              <input id="idInput" class="form-control" type="text" readonly required>
             </div>
             <div class="form-group">
               <label for="firstNameInput">First name</label>
-              <input class="form-control" id="firstNameInput" type="text" required>
+              <input id="firstNameInput" class="form-control" type="text" required>
             </div>
             <div class="form-group">
               <label for="lastNameInput">Last name</label>
-              <input class="form-control" id="lastNameInput" type="text" required>
+              <input id="lastNameInput" class="form-control" type="text" required>
             </div>
             <div class="form-group">
               <label for="ageInput">Age</label>
-              <input class="form-control" type="number" id="ageInput" required>
+              <input id="ageInput" class="form-control" type="number" required>
             </div>
             <div class="form-group">
               <label for="emailInput">Email</label>
-              <input class="form-control" id="emailInput" required readonly>
+              <input id="emailInput" class="form-control" required readonly>
             </div>
             <div class="form-group">
               <label for="passwordInput">Password</label>
-              <input class="form-control" id="passwordInput" readonly>
+              <input id="passwordInput" class="form-control" readonly>
             </div>
             <div class="form-group p-0">
               <label for="roles">Role</label>
-              <select multiple size="2" class="form-control pre-scrollable" id="roles"
+              <select id="roles" class="form-control pre-scrollable" multiple size="2"
                       name="selectedRoles">
                 <option
                         th:each="role : ${allRoles}"
@@ -196,8 +198,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearUserEditModal()">Close</button>
-            <input type="button" class="btn btn-primary" th:value="Edit" onclick="submitUserEdit()">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="clearUserEditModal()">Close</button>
+            <input class="btn btn-primary" type="button" th:value="Edit" onclick="submitUserEdit()">
           </div>
         </form>
       </div>
@@ -206,8 +208,62 @@
 </div>
 <!------------------------->
 
-
-
+<!-- User deletion modal -->
+<div id="userDeleteModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete</h5>
+        <button id="closeDeleteModalXButton" class="close" type="button" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body p-0">
+        <form
+                class="text-center mb-0 pt-4 font-weight-bold"
+                action="/api/users/delete"
+                method="post">
+          <div class="col-6 mx-auto">
+            <div class="form-group ">
+              <label for="idInputDeleteModal">ID</label>
+              <input id="idInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="firstNameInputDeleteModal">First name</label>
+              <input id="firstNameInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="lastNameInputDeleteModal">Last name</label>
+              <input id="lastNameInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="ageInputDeleteModal">Age</label>
+              <input id="ageInputDeleteModal" class="form-control" type="number" disabled>
+            </div>
+            <div class="form-group">
+              <label for="emailInputDeleteModal">Email</label>
+              <input id="emailInputDeleteModal" class="form-control" disabled>
+            </div>
+            <div class="form-group p-0">
+              <label for="rolesSelectDeleteModal">Role</label>
+              <select id="rolesSelectDeleteModal" class="form-control pre-scrollable" multiple size="2"  disabled>
+                <option
+                        th:each="role : ${allRoles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                    th:text="Close"></button>
+            <input class="btn btn-danger" type="button" value="Delete" onclick="submitUserDelete()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------->
 
 <!-- modal views section ends -->
 
