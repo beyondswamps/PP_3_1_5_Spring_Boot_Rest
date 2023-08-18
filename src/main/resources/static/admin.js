@@ -2,8 +2,11 @@
 
 const url = 'http://localhost:8080/api/users'
 
-refreshUserTable();
+init();
 
+function init() {
+    refreshUserTable();
+}
 
 async function refreshUserTable() {
     const users = await (await fetch(url)).json();

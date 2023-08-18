@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping
 public class AdminController {
 
     private final UserService userService;
@@ -36,36 +36,12 @@ public class AdminController {
                 .getPrincipal());
     }
 
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute User user,
-                          @RequestParam List<Long> selectedRoles) {
-        user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
-        userService.saveUser(user);
-        return "redirect:/admin/";
-    }
-
     @GetMapping("/")
     public String listUsers(Model model) {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("newUser", new User());
         model.addAttribute("eachUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
-        return "users";
-    }
-
-    @PostMapping(value = "/edit")
-    public String editUser(@ModelAttribute User userForm,
-                           @RequestParam(name = "id") Long id,
-                           @RequestParam(name = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
-        userForm.setId(id);
-        userForm.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
-        userService.updateUser(userForm);
-        return "redirect:/admin/";
-    }
-
-    @PostMapping(value = "/delete")
-    public String deleteUser(@RequestParam Long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin/";
+        return "index";
     }
 }
