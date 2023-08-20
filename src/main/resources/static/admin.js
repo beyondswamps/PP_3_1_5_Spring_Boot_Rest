@@ -4,8 +4,8 @@ const url = 'http://localhost:8080/api/users'
 
 init();
 
-function init() {
-    refreshUserTable();
+async function init() {
+    await refreshUserTable();
 }
 
 async function refreshUserTable() {
@@ -87,7 +87,7 @@ async function submitUserEdit() {
     let response = await fetch(`${url}/edit`, request);
     if (response.ok) {
         document.getElementById('closeEditModalXButton').click();
-        refreshUserTable()
+        await refreshUserTable()
     }
 }
 
@@ -112,13 +112,13 @@ async function submitUserDelete() {
         method: 'POST'
     };
 
-    let id = document.getElementById('idInputDeleteModal').value;
+    let id = $('idInputDeleteModal').val();
 
     await fetch(`${url}/delete?id=${id}`, request);
 
     document.getElementById('closeDeleteModalXButton').click();
 
-    refreshUserTable();
+    await refreshUserTable();
 }
 
 async function submitNewUserForm() {
@@ -143,7 +143,7 @@ async function submitNewUserForm() {
 
     let response = await fetch(`${url}/new`, request);
     if (response.ok) {
-        refreshUserTable();
+        await refreshUserTable();
         document.getElementById('usersTableTab').click();
         $('#userNewForm')[0].reset();
     }
