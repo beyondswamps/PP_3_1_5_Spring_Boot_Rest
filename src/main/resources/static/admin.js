@@ -145,6 +145,6 @@ async function submitNewUserForm() {
     if (response.ok) {
         refreshUserTable();
         document.getElementById('usersTableTab').click();
-        clearNewUserForm();
+        $('#userNewForm')[0].reset();
     }
 }
