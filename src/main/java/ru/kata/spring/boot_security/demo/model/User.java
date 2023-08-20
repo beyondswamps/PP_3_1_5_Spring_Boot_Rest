@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "firstname")
@@ -44,14 +44,14 @@ public class User implements UserDetails {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    @Column(name="enabled")
+    @Column(name = "enabled")
     private boolean enabled = true;
 
     public User() {
@@ -128,7 +128,6 @@ public class User implements UserDetails {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -190,4 +189,11 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    public boolean isAdmin() {
+        return this.getRoles()
+                .stream()
+                .map(Role::getAuthority)
+                .toList()
+                .contains("ROLE_ADMIN");
+    }
 }

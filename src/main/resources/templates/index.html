@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device=width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link href="https://fonts.cdnfonts.com/css/segoe-ui-4" rel="stylesheet">
+  <title>Admin panel</title>
+</head>
+<body style="font-family: 'Segoe UI', sans-serif">
+<div th:replace="fragments/headerTemplate :: header"></div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2 px-0">
+      <div class="nav nav-pills flex-column mt-3">
+        <a id="adminTab" class="nav-link active text-left" data-toggle="pill" data-target="#adminTabContent"
+           type="button" th:if="${currentUser.isAdmin()}">Admin
+        </a>
+        <a id="userTab" class="nav-link text-left" data-toggle="pill" data-target="#userTabContent"
+           type="button">User
+        </a>
+      </div>
+    </div>
+    <div class="col-10 bg-light vh-100">
+      <div class="tab-content">
+        <div id="adminTabContent" class="tab-pane fade show active" th:if="${currentUser.isAdmin()}">
+          <div class="m-3 bg-light">
+            <div class="h1">Admin panel</div>
+            <nav>
+              <div class="nav nav-tabs">
+                <a id="usersTableTab"
+                   class="nav-link active"
+                   data-toggle="tab" data-target="#usersTableTabContent"
+                   type="button">Users
+                  table
+                </a>
+                <a id="newUserTab"
+                   class="nav-link"
+                   data-toggle="tab" data-target="#newUserFormTabContent"
+                   type="button">New user</a>
+              </div>
+            </nav>
+            <div class="tab-content border">
+              <div id="usersTableTabContent" class="tab-pane show active">
+                <div class="h5 bg-light border py-2 px-4 m-0">All users</div>
+                <div class="p-4 bg-white">
+                  <table id="usersTable" class="table table-striped pb-0">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>First name</th>
+                      <th>Last Name</th>
+                      <th>Age</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div id="newUserFormTabContent" class="tab-pane">
+                <div class="h5 bg-light border py-2 px-4 m-0">Add new user</div>
+                <div class="bg-white">
+                  <form
+                          id="userNewForm"
+                          class="text-center pt-4 font-weight-bold">
+                    <div class="form-group">
+                      <label for="firstNameInputNewUserForm" class="mb-0">First name</label>
+                      <input id="firstNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="First name" type="text">
+                    </div>
+                    <div class="form-group">
+                      <label for="lastNameInputNewUserForm" class="mb-0">Last name</label>
+                      <input id="lastNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Last name" type="text">
+                    </div>
+                    <div class="form-group">
+                      <label for="ageInputNewUserForm" class="mb-0">Age</label>
+                      <input id="ageInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Age" type="number">
+                    </div>
+                    <div class="form-group">
+                      <label for="emailInputNewUserForm" class="mb-0">Email</label>
+                      <input id="emailInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Email" type="email">
+                    </div>
+                    <div class="form-group">
+                      <label for="passwordInputNewUserForm" class="mb-0">Password</label>
+                      <input id="passwordInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Password" type="password">
+                    </div>
+                    <div class="form-group col-4 mx-auto p-0">
+                      <label for="roleSelectionInputNewUserForm" class="mb-0">Role</label>
+                      <select id="roleSelectionInputNewUserForm"
+                              class="form-control w-100 text-secondary pre-scrollable" multiple size="2"
+                              name="selectedRoles">
+                        <option
+                                th:each="role : ${allRoles}"
+                                th:text="${role.getName()}"
+                                th:value="${role.getId()}">
+                        </option>
+                      </select>
+                    </div>
+                    <div class="pb-3">
+                      <input class="btn btn-success text-wrap btn-lg col-2 text-center"
+                             type="button"
+                             value="Add new user"
+                             onclick="submitNewUserForm()"/>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="userTabContent" class="tab-pane fade bg-white m-3">
+          <div class="h1 bg-light mb-0 pb-2">User-information page</div>
+          <div class="h5 bg-light border py-2 px-4 m-0">About user</div>
+          <div class="p-4 border">
+            <table id="userInfoTable" class="table table-striped pb-0">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>First name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="container">
+                <td th:text="${currentUser.getId()}">id</td>
+                <td th:text="${currentUser.getFirstName()}">name</td>
+                <td th:text="${currentUser.getLastName()}">lastname</td>
+                <td th:text="${currentUser.getAge()}">age</td>
+                <td th:text="${currentUser.getEmail()}">email</td>
+                <td th:text="${currentUser.listRoles()}">roles</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal views section starts -->
+
+<!-- User edition modal view -->
+<div class="modal" id="userEditModal" tabindex="-1" role="dialog" th:if="${currentUser.isAdmin()}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit user</h5>
+        <button id="closeEditModalXButton"
+                class="close"
+                type="button"
+                data-dismiss="modal"
+                onclick="$('#userEditModalForm')[0].reset()">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <form
+                id="userEditModalForm"
+                class="text-center mb-0 pt-4 font-weight-bold"
+                action="/api/users/edit"
+                method="post">
+          <div class="col-6 mx-auto">
+            <div class="form-group ">
+              <label for="idInput">ID</label>
+              <input id="idInput" class="form-control" type="text" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="firstNameInput">First name</label>
+              <input id="firstNameInput" class="form-control" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="lastNameInput">Last name</label>
+              <input id="lastNameInput" class="form-control" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="ageInput">Age</label>
+              <input id="ageInput" class="form-control" type="number" required>
+            </div>
+            <div class="form-group">
+              <label for="emailInput">Email</label>
+              <input id="emailInput" class="form-control" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="passwordInput">Password</label>
+              <input id="passwordInput" class="form-control" readonly>
+            </div>
+            <div class="form-group p-0">
+              <label for="roles">Role</label>
+              <select id="roles" class="form-control pre-scrollable" multiple size="2"
+                      name="selectedRoles">
+                <option
+                        th:each="role : ${allRoles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="$('#userEditModalForm')[0].reset()">Close</button>
+            <input class="btn btn-primary" type="button" th:value="Edit" onclick="submitUserEdit()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------->
+
+<!-- User deletion modal -->
+<div id="userDeleteModal" class="modal" tabindex="-1" role="dialog" th:if="${currentUser.isAdmin()}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete</h5>
+        <button
+                id="closeDeleteModalXButton"
+                class="close"
+                type="button"
+                data-dismiss="modal"
+                onclick="$('#userDeleteModalForm')[0].reset()">
+          &times;
+        </button><!---->
+      </div>
+      <div class="modal-body p-0">
+        <form
+                id="userDeleteModalForm"
+                class="text-center mb-0 pt-4 font-weight-bold"
+                action="/api/users/delete"
+                method="post">
+          <div class="col-6 mx-auto">
+            <div class="form-group ">
+              <label for="idInputDeleteModal">ID</label>
+              <input id="idInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="firstNameInputDeleteModal">First name</label>
+              <input id="firstNameInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="lastNameInputDeleteModal">Last name</label>
+              <input id="lastNameInputDeleteModal" class="form-control" type="text" disabled>
+            </div>
+            <div class="form-group">
+              <label for="ageInputDeleteModal">Age</label>
+              <input id="ageInputDeleteModal" class="form-control" type="number" disabled>
+            </div>
+            <div class="form-group">
+              <label for="emailInputDeleteModal">Email</label>
+              <input id="emailInputDeleteModal" class="form-control" disabled>
+            </div>
+            <div class="form-group p-0">
+              <label for="rolesSelectDeleteModal">Role</label>
+              <select id="rolesSelectDeleteModal" class="form-control pre-scrollable" multiple size="2"  disabled>
+                <option
+                        th:each="role : ${allRoles}"
+                        th:text="${role.getName()}"
+                        th:value="${role.getId()}">
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+                    class="btn btn-secondary"
+                    type="button"
+                    data-dismiss="modal"
+                    onclick="$('#userDeleteModalForm')[0].reset()"
+                    th:text="Close">
+
+            </button>
+            <input class="btn btn-danger" type="button" value="Delete" onclick="submitUserDelete()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------->
+
+<!-- modal views section ends -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+        crossorigin="anonymous"></script>
+
+<script src="/admin.js" th:if="${currentUser.isAdmin()}"></script>
+<script src="/user.js"></script>
+
+</body>
+</html>

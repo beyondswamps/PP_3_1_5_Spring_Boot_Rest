@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.stream.Collectors;
-
 @Controller
-@
-        RequestMapping("/")
+@RequestMapping("/")
 public class UserController {
 
     private final UserService userService;
@@ -33,25 +30,9 @@ public class UserController {
                         .getPrincipal());
     }
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String loginForm() {
         return "login";
-    }
-
-    @GetMapping("/user")
-    public String showUserInfo(Model model) {
-        User currentUser = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("userIsAdmin",
-                currentUser.getAuthorities().stream().
-                        map(role->role.getAuthority())
-                        .collect(Collectors.toSet())
-                        .contains("ROLE_ADMIN"));
-        return "user";
     }
 
     @GetMapping("/changePassword")
@@ -70,7 +51,6 @@ public class UserController {
         if (!userService.updatePassword(user, currentPassword, newPassword)) {
             return "changePass";
         }
-        return "redirect:/user";
+        return "redirect:/";
     }
-
 }

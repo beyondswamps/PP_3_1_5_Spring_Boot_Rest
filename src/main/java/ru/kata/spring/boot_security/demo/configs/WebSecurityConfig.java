@@ -17,7 +17,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final SuccessUserHandler successUserHandler;
+//    private final SuccessUserHandler successUserHandler;
     private final UserDetailsService userDetailsService;
 
     private final UserService userService;
@@ -26,8 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService, UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
-        this.successUserHandler = successUserHandler;
+    public WebSecurityConfig(UserDetailsService userDetailsService, UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.userService = userService;
         this.roleService = roleService;
@@ -42,17 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/register").not().authenticated()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/api/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/")
+                    .loginPage("/login")
                     .loginProcessingUrl("/perform-login")
                     .usernameParameter("email")
                     .passwordParameter("password")
-                    .successHandler(successUserHandler)
                     .permitAll()
                 .and()
                     .logout()
