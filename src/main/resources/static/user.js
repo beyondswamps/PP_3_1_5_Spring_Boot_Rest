@@ -3,7 +3,7 @@
 init();
 
 function init() {
-    if (document.getElementById('adminTab') === null) {
+    if ($('#adminTab').val() === undefined) {
         $('#userTab').addClass('active');
         $('#userTabContent').addClass('show active');
     }

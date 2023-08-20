@@ -192,7 +192,7 @@ public class User implements UserDetails {
     public boolean isAdmin() {
         return this.getRoles()
                 .stream()
-                .map(role -> role.getAuthority())
+                .map(Role::getAuthority)
                 .toList()
                 .contains("ROLE_ADMIN");
     }

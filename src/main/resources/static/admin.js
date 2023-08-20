@@ -10,7 +10,6 @@ function init() {
 
 async function refreshUserTable() {
     const users = await (await fetch(url)).json();
-    const usersTable = document.getElementById('usersTableBody');
 
     let contentHtml = '';
     users.forEach(
@@ -48,35 +47,23 @@ async function refreshUserTable() {
             </tr>`
         }
     )
-    usersTable.innerHTML = contentHtml;
-
+    $('#usersTableBody').html(contentHtml);
 }
 
 async function toggleUserEditModal(id) {
-    const user = await (await fetch(url + `/${id}`)).json();
+    const user = await (await fetch(`${url}/${id}`)).json();
 
-    document.getElementById('idInput').value = id;
-    document.getElementById('firstNameInput').value = user.firstName;
-    document.getElementById('lastNameInput').value = user.lastName;
-    document.getElementById('ageInput').value = user.age;
-    document.getElementById('emailInput').value = user.email;
-    document.getElementById('passwordInput').value = user.password;
+    $('#idInput').val(id);
+    $('#firstNameInput').val(user.firstName);
+    $('#lastNameInput').val(user.lastName);
+    $('#ageInput').val(user.age);
+    $('#emailInput').val(user.email);
+    $('#passwordInput').val(user.password);
     [...document.getElementById('roles').options]
         .filter(option => user.rolesIds.includes(parseInt(option.value)))
         .forEach(option => option.selected = true);
 
-    document.getElementById('userEditModal').style.display = 'block';
-}
-
-function clearUserEditModal() {
-    document.getElementById('idInput').value = '';
-    document.getElementById('firstNameInput').value = '';
-    document.getElementById('lastNameInput').value = '';
-    document.getElementById('ageInput').value = '';
-    document.getElementById('emailInput').value = '';
-    document.getElementById('passwordInput').value = '';
-    [...document.getElementById('roles').options]
-        .forEach(option => option.selected = false);
+    $('#userEditModal').show();
 }
 
 async function submitUserEdit() {
@@ -86,11 +73,11 @@ async function submitUserEdit() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: document.getElementById('idInput').value,
-            firstName: document.getElementById('firstNameInput').value,
-            lastName: document.getElementById('lastNameInput').value,
-            age: document.getElementById('ageInput').value,
-            email: document.getElementById('emailInput').value,
+            id: $('#idInput').val(),
+            firstName: $('#firstNameInput').val(),
+            lastName: $('#lastNameInput').val(),
+            age: $('#ageInput').val(),
+            email: $('#emailInput').val(),
             rolesIds: [...document.getElementById('roles').options]
                 .filter(option => option.selected === true)
                 .map(option => parseInt(option.value))
@@ -107,17 +94,17 @@ async function submitUserEdit() {
 async function toggleUserDeleteModal(id) {
     const user = await (await fetch(url + `/${id}`)).json();
 
-    document.getElementById('idInputDeleteModal').value = id;
-    document.getElementById('firstNameInputDeleteModal').value = user.firstName;
-    document.getElementById('lastNameInputDeleteModal').value = user.lastName;
-    document.getElementById('ageInputDeleteModal').value = user.age;
-    document.getElementById('emailInputDeleteModal').value = user.email;
+    $('#idInputDeleteModal').val(id);
+    $('#firstNameInputDeleteModal').val(user.firstName);
+    $('#lastNameInputDeleteModal').val(user.lastName);
+    $('#ageInputDeleteModal').val(user.age);
+    $('#emailInputDeleteModal').val(user.email);
     // document.getElementById('').value = user.password;
     [...document.getElementById('rolesSelectDeleteModal').options]
         .filter(option => user.rolesIds.includes(parseInt(option.value)))
         .forEach(option => option.selected = true);
 
-    document.getElementById('userDeleteModal').style.display = 'block';
+    $('#userDeleteModal').show();
 }
 
 async function submitUserDelete() {
@@ -136,11 +123,11 @@ async function submitUserDelete() {
 
 async function submitNewUserForm() {
     const newUser = {
-        'email': document.getElementById('emailInputNewUserForm').value,
-        'firstName': document.getElementById('firstNameInputNewUserForm').value,
-        'lastName': document.getElementById('lastNameInputNewUserForm').value,
-        'age': document.getElementById('ageInputNewUserForm').value,
-        'password': document.getElementById('passwordInputNewUserForm').value,
+        'email': $('#emailInputNewUserForm').val(),
+        'firstName': $('#firstNameInputNewUserForm').val(),
+        'lastName': $('#lastNameInputNewUserForm').val(),
+        'age': $('#ageInputNewUserForm').val(),
+        'password': $('#passwordInputNewUserForm').val(),
         'rolesIds': [...document.getElementById('roleSelectionInputNewUserForm').options]
             .filter(option => option.selected === true)
             .map(option => parseInt(option.value))
@@ -160,14 +147,4 @@ async function submitNewUserForm() {
         document.getElementById('usersTableTab').click();
         clearNewUserForm();
     }
-}
-
-function clearNewUserForm() {
-    document.getElementById('firstNameInputNewUserForm').value = '';
-    document.getElementById('lastNameInputNewUserForm').value = '';
-    document.getElementById('ageInputNewUserForm').value = '';
-    document.getElementById('emailInputNewUserForm').value = '';
-    document.getElementById('passwordInputNewUserForm').value = '';
-    [...document.getElementById('roleSelectionInputNewUserForm').options]
-        .forEach(option => option.selected = false);
 }
