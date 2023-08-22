@@ -208,7 +208,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="$('#userEditModalForm')[0].reset()">Close</button>
-            <input class="btn btn-primary" type="button" th:value="Edit" onclick="submitUserEdit()">
+            <input class="btn btn-primary" type="button" data-dismiss="modal" th:value="Edit" onclick="submitUserEdit()">
           </div>
         </form>
       </div>
@@ -279,7 +279,7 @@
                     th:text="Close">
 
             </button>
-            <input class="btn btn-danger" type="button" value="Delete" onclick="submitUserDelete()">
+            <input class="btn btn-danger" type="button" value="Delete" data-dismiss="modal" onclick="submitUserDelete()">
           </div>
         </form>
       </div>

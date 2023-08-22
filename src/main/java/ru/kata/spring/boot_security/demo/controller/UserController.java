@@ -9,15 +9,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
+        this.roleService = roleService;
         this.userService = userService;
     }
 
@@ -31,8 +37,18 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("newUser", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "login";
+    }
+
+    @PostMapping("/register")
+    public String sendRegisterForm(@ModelAttribute("user") User user,
+                                   @RequestParam(value = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
+        user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
+        userService.saveUser(user);
+        return "redirect:/";
     }
 
     @GetMapping("/changePassword")

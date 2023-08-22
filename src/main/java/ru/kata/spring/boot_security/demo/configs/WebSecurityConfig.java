@@ -17,9 +17,8 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//    private final SuccessUserHandler successUserHandler;
+    //    private final SuccessUserHandler successUserHandler;
     private final UserDetailsService userDetailsService;
-
     private final UserService userService;
 
     private final RoleService roleService;
@@ -40,24 +39,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/register").not().authenticated()
-                    .antMatchers("/api/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                .antMatchers("/static/common/**").permitAll()
+                .antMatchers("/api/users/new").permitAll()
+                .antMatchers("/login").not().authenticated()
+                .antMatchers("/register").not().authenticated()
+                .antMatchers("/api/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/perform-login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/perform-login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll()
                 .and()
-                    .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .permitAll();
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .permitAll();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth){
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 

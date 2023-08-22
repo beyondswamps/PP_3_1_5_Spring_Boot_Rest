@@ -10,7 +10,6 @@ async function init() {
 
 async function refreshUserTable() {
     const users = await (await fetch(url)).json();
-
     let contentHtml = '';
     users.forEach(
         eachUser => {
@@ -86,7 +85,6 @@ async function submitUserEdit() {
 
     let response = await fetch(`${url}/edit`, request);
     if (response.ok) {
-        document.getElementById('closeEditModalXButton').click();
         await refreshUserTable()
     }
 }
@@ -99,7 +97,6 @@ async function toggleUserDeleteModal(id) {
     $('#lastNameInputDeleteModal').val(user.lastName);
     $('#ageInputDeleteModal').val(user.age);
     $('#emailInputDeleteModal').val(user.email);
-    // document.getElementById('').value = user.password;
     [...document.getElementById('rolesSelectDeleteModal').options]
         .filter(option => user.rolesIds.includes(parseInt(option.value)))
         .forEach(option => option.selected = true);
@@ -111,13 +108,8 @@ async function submitUserDelete() {
     let request = {
         method: 'POST'
     };
-
-    let id = $('idInputDeleteModal').val();
-
+    let id = $('#idInputDeleteModal').val();
     await fetch(`${url}/delete?id=${id}`, request);
-
-    document.getElementById('closeDeleteModalXButton').click();
-
     await refreshUserTable();
 }
 
@@ -140,7 +132,6 @@ async function submitNewUserForm() {
         },
         body: JSON.stringify(newUser)
     }
-
     let response = await fetch(`${url}/new`, request);
     if (response.ok) {
         await refreshUserTable();
