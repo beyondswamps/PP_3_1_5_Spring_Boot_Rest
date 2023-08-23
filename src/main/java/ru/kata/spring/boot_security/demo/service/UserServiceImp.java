@@ -1,9 +1,11 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.exceptions.WrongPasswordException;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -62,6 +64,16 @@ public class UserServiceImp implements UserService {
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) return false;
         user.setPassword(passwordEncoder.encode(newPassword));
         userDao.updateUser(user);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateCurrentUserPassword(String currentPassword, String newPassword) throws WrongPasswordException {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) throw new WrongPasswordException("Wrong password");
+        currentUser.setPassword(passwordEncoder.encode(newPassword));
+        userDao.updateUser(currentUser);
         return true;
     }
 }

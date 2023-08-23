@@ -7,7 +7,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDto;
+import ru.kata.spring.boot_security.demo.exceptions.ErrorEntity;
 import ru.kata.spring.boot_security.demo.exceptions.UserNotFoundException;
+import ru.kata.spring.boot_security.demo.exceptions.WrongPasswordException;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserDtoService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -57,6 +59,12 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PostMapping("/updatepass")
+    public ResponseEntity<HttpStatus> updatePassword(@RequestBody Map<String, String> passwords) {
+        userService.updateCurrentUserPassword(passwords.get("currentPassword"), passwords.get("newPassword"));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @ExceptionHandler
     public ResponseEntity<String> handleException(UserNotFoundException userNotFoundException) {
         return new ResponseEntity<>(userNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
@@ -69,5 +77,10 @@ public class AdminRestController {
                 .stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
         return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorEntity> handleException(WrongPasswordException wrongPasswordException) {
+        return new ResponseEntity<>(new ErrorEntity(wrongPasswordException.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
