@@ -59,15 +59,9 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/updatepass")
-    public ResponseEntity<HttpStatus> updatePassword(@RequestBody Map<String, String> passwords) {
-        userService.updateCurrentUserPassword(passwords.get("currentPassword"), passwords.get("newPassword"));
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @ExceptionHandler
-    public ResponseEntity<String> handleException(UserNotFoundException userNotFoundException) {
-        return new ResponseEntity<>(userNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorEntity> handleException(UserNotFoundException userNotFoundException) {
+        return new ResponseEntity<>(new ErrorEntity(userNotFoundException.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler

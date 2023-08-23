@@ -1,6 +1,6 @@
 'use strict'
 
-const userApiUrl = 'http://localhost:8080/api/users'
+const userApiUrl = 'http://localhost:8080'
 
 async function submitNewUserRegisterForm() {
     const newUser = {
@@ -22,7 +22,7 @@ async function submitNewUserRegisterForm() {
         body: JSON.stringify(newUser)
     }
 
-    let response = await fetch(`${userApiUrl}/new`, request);
+    let response = await fetch(`${userApiUrl}/register`, request);
     if (response.ok) {
         $('#registerNewUserFormModal').modal('hide');
         $('#userRegisterFormModal').reset();

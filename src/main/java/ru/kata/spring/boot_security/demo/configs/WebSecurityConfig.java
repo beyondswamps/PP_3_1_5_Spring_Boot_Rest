@@ -11,24 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    //    private final SuccessUserHandler successUserHandler;
     private final UserDetailsService userDetailsService;
-    private final UserService userService;
-
-    private final RoleService roleService;
 
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
-        this.userService = userService;
-        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -39,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/static/common/**", "/api/users/new").permitAll()
+                .antMatchers("/static/common/**").permitAll()
                 .antMatchers("/register").not().authenticated()
                 .antMatchers("/api/users/updatepass").authenticated()
                 .antMatchers("/api/**").hasRole("ADMIN")

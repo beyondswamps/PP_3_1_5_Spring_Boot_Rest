@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -38,24 +36,5 @@ public class UserController {
         model.addAttribute("newUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "login";
-    }
-
-    @GetMapping("/changePassword")
-    public String getChangePassword() {
-        return "changePass";
-    }
-
-    @PostMapping("/changePassword")
-    public String postChangePassword(@RequestParam("currentPassword") String currentPassword,
-                                     @RequestParam("newPassword") String newPassword) {
-        User user = (User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        if (!userService.updatePassword(user, currentPassword, newPassword)) {
-            return "changePass";
-        }
-        return "redirect:/";
     }
 }
