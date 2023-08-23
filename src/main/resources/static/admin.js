@@ -137,5 +137,11 @@ async function submitNewUserForm() {
         await refreshUserTable();
         document.getElementById('usersTableTab').click();
         $('#userNewForm')[0].reset();
+    } else {
+        $('.validationMessages').hide();
+        let errors = await response.json();
+        Object.keys(errors).forEach(function(key) {
+            $('#' + key + 'InputNewUserFormValidation').text(errors[key]).show();
+        })
     }
 }

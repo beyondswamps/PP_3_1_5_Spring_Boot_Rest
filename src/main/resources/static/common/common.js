@@ -24,6 +24,13 @@ async function submitNewUserRegisterForm() {
 
     let response = await fetch(`${userApiUrl}/new`, request);
     if (response.ok) {
-        $('#userRegisterFormModal')[0].reset();
+        $('#registerNewUserFormModal').modal('hide');
+        $('#userRegisterFormModal').reset();
+    } else {
+        $('.validationMessages').hide();
+        let errors = await response.json();
+        Object.keys(errors).forEach(function(key) {
+            $('#' + key + 'InputRegisterFormValidation').text(errors[key]).show();
+        })
     }
 }

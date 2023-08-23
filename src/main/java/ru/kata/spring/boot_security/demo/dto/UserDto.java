@@ -1,18 +1,25 @@
 package ru.kata.spring.boot_security.demo.dto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class UserDto {
     private Long id;
-
+    @NotEmpty(message = "Email cannot be empty")
+    @Email
     private String email;
 
+    @NotEmpty(message = "First name cannot be empty")
     private String firstName;
-
+    @NotEmpty(message = "Last name cannot be empty")
     private String lastName;
 
+    @Min(value = 0)
+    @Max(value = 130)
+    @NotNull(message = "Select age")
     private Integer age;
-
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     private List<Long> rolesIds;

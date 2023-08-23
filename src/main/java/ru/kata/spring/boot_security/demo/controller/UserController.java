@@ -43,14 +43,6 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/register")
-    public String sendRegisterForm(@ModelAttribute("user") User user,
-                                   @RequestParam(value = "selectedRoles", defaultValue = "") List<Long> selectedRoles) {
-        user.setRoles(Set.copyOf(roleService.getRolesByIds(selectedRoles)));
-        userService.saveUser(user);
-        return "redirect:/";
-    }
-
     @GetMapping("/changePassword")
     public String getChangePassword() {
         return "changePass";

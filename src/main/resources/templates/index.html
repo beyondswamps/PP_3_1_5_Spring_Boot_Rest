@@ -69,32 +69,39 @@
                 <div class="bg-white">
                   <form
                           id="userNewForm"
-                          class="text-center pt-4 font-weight-bold">
+                          class="text-center pt-4 font-weight-bold"
+                          th:object="${newUser}">
                     <div class="form-group">
                       <label for="firstNameInputNewUserForm" class="mb-0">First name</label>
-                      <input id="firstNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="First name" type="text">
+                      <input id="firstNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="First name" type="text" required>
+                      <small id="firstNameInputNewUserFormValidation" class="validationMessages form-text text-left text-danger col-4 mx-auto"></small>
                     </div>
                     <div class="form-group">
                       <label for="lastNameInputNewUserForm" class="mb-0">Last name</label>
                       <input id="lastNameInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Last name" type="text">
+                      <small id="lastNameInputNewUserFormValidation" class="validationMessages form-text text-left text-danger col-4 mx-auto"></small>
                     </div>
                     <div class="form-group">
                       <label for="ageInputNewUserForm" class="mb-0">Age</label>
                       <input id="ageInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Age" type="number">
+                      <small id="ageInputNewUserFormValidation" class="validationMessages form-text text-left text-danger col-4 mx-auto"></small>
                     </div>
                     <div class="form-group">
                       <label for="emailInputNewUserForm" class="mb-0">Email</label>
                       <input id="emailInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Email" type="email">
+                      <small id="emailInputNewUserFormValidation" class="validationMessages form-text text-left text-danger col-4 mx-auto"></small>
                     </div>
                     <div class="form-group">
                       <label for="passwordInputNewUserForm" class="mb-0">Password</label>
                       <input id="passwordInputNewUserForm" class="form-control col-4 mx-auto" placeholder="Password" type="password">
+                      <small id="passwordInputNewUserFormValidation" class="validationMessages form-text text-left text-danger col-4 mx-auto"></small>
                     </div>
                     <div class="form-group col-4 mx-auto p-0">
                       <label for="roleSelectionInputNewUserForm" class="mb-0">Role</label>
                       <select id="roleSelectionInputNewUserForm"
                               class="form-control w-100 text-secondary pre-scrollable" multiple size="2"
-                              name="selectedRoles">
+                              name="selectedRoles"
+                              required>
                         <option
                                 th:each="role : ${allRoles}"
                                 th:text="${role.getName()}"
@@ -127,6 +134,7 @@
                 <th>Age</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Change password</th>
               </tr>
               </thead>
               <tbody>
@@ -137,6 +145,14 @@
                 <td th:text="${currentUser.getAge()}">age</td>
                 <td th:text="${currentUser.getEmail()}">email</td>
                 <td th:text="${currentUser.listRoles()}">roles</td>
+                <td>
+                  <button
+                          class="btn btn-primary"
+                          data-toggle="modal"
+                          data-target="#changePasswordModal"
+                          value="Change password">
+                  </button>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -287,6 +303,54 @@
   </div>
 </div>
 <!------------------------->
+
+<!--change password modal-->
+<div id="changePasswordModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change password</h5>
+        <button
+                id="closeChangePasswordModalXButton"
+                class="close"
+                type="button"
+                data-dismiss="modal"
+                onclick="$('#changePasswordModalForm')[0].reset()">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <form
+                id="changePasswordModalForm"
+                class="text-center mb-0 pt-4 font-weight-bold"
+                action="/changePassword"
+                method="post">
+          <div class="col-6 mx-auto">
+            <div class="form-group ">
+              <label for="currentPasswordInputChangePasswordModal">Current password</label>
+              <input id="currentPasswordInputChangePasswordModal" class="form-control" type="text">
+            </div>
+            <div class="form-group">
+              <label for="newPasswordInputChangePasswordModal">New password</label>
+              <input id="newPasswordInputChangePasswordModal" class="form-control" type="text">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+                    class="btn btn-secondary"
+                    type="button"
+                    data-dismiss="modal"
+                    onclick="$('#changePasswordModalForm')[0].reset()"
+                    th:text="Close">
+            </button>
+            <input class="btn btn-danger" type="button" value="Change" data-dismiss="modal">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!---->
 
 <!-- modal views section ends -->
 

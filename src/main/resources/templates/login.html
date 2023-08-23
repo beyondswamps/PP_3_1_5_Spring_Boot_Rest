@@ -52,22 +52,27 @@
             <div class="form-group">
               <label for="firstNameInputRegisterFormModal">First name</label>
               <input id="firstNameInputRegisterFormModal" class="form-control" type="text" required>
+              <small id="firstNameInputRegisterFormValidation" class="validationMessages form-text text-left text-danger"></small>
             </div>
             <div class="form-group">
               <label for="lastNameInputRegisterFormModal">Last name</label>
               <input id="lastNameInputRegisterFormModal" class="form-control" type="text" required>
+              <small id="lastNameInputRegisterFormValidation" class="validationMessages form-text text-left text-danger"></small>
             </div>
             <div class="form-group">
               <label for="ageInputRegisterFormModal">Age</label>
               <input id="ageInputRegisterFormModal" class="form-control" type="number" required>
+              <small id="ageInputRegisterFormValidation" class="validationMessages form-text text-left text-danger"></small>
             </div>
             <div class="form-group">
               <label for="emailInputRegisterFormModal">Email</label>
               <input id="emailInputRegisterFormModal" class="form-control" required>
+              <small id="emailInputRegisterFormValidation" class="validationMessages form-text text-left text-danger"></small>
             </div>
             <div class="form-group">
               <label for="passwordInputRegisterFormModal">Password</label>
               <input id="passwordInputRegisterFormModal" class="form-control" required>
+              <small id="passwordInputRegisterFormValidation" class="validationMessages form-text text-left text-danger"></small>
             </div>
             <div class="form-group p-0">
               <label for="roleSelectionInputNewUserRegisterForm">Role</label>
@@ -83,7 +88,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="$('#userRegisterFormModal')[0].reset()">Close</button>
-            <input class="btn btn-primary" type="button" data-dismiss="modal" th:value="Register" onclick="submitNewUserRegisterForm()">
+            <input class="btn btn-primary" type="button" th:value="Register" onclick="submitNewUserRegisterForm()">
           </div>
         </form>
       </div>
