@@ -16,7 +16,7 @@ public class UserServiceImp implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.userDao = userDao;
     }

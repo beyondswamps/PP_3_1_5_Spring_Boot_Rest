@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping
 public class UserRestController {
 
-    private UserDtoService userDtoService;
+    private final UserDtoService userDtoService;
 
     public UserRestController(UserDtoService userDtoService) {
         this.userDtoService = userDtoService;
