@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.exceptions;
+package ru.kata.spring.boot_security.demo.exceptionHandling.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +7,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.kata.spring.boot_security.demo.exceptionHandling.entity.ErrorEntity;
+import ru.kata.spring.boot_security.demo.exceptionHandling.exceptions.UserNotFoundException;
+import ru.kata.spring.boot_security.demo.exceptionHandling.exceptions.WrongPasswordException;
 
 import java.util.Map;
 import java.util.stream.Collectors;
