@@ -315,7 +315,7 @@
                 class="close"
                 type="button"
                 data-dismiss="modal"
-                onclick="$('#changePasswordModalForm')[0].reset()">
+                onclick="resetUpdatePasswordModal()">
           &times;
         </button>
       </div>
@@ -333,7 +333,7 @@
             <div class="form-group">
               <label for="newPasswordInputChangePasswordModal">New password</label>
               <input id="newPasswordInputChangePasswordModal" class="form-control" type="text">
-              <small id="passwordValidation" class="form-text text-danger text-left"></small>
+              <small id="passwordValidation" class="validationMessages form-text text-danger text-left"></small>
             </div>
 
           </div>
@@ -342,7 +342,7 @@
                     class="btn btn-secondary"
                     type="button"
                     data-dismiss="modal"
-                    onclick="$('#changePasswordModalForm')[0].reset()"
+                    onclick="resetUpdatePasswordModal()"
                     th:text="Close">
             </button>
             <input class="btn btn-danger" type="button" value="Change" onclick="updatePassword()">
